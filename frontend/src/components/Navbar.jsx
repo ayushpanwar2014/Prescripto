@@ -14,19 +14,19 @@ const Navbar = () => {
         <img className='w-44 cursor-pointer' src={assets.logo} alt="" />
       </NavLink>
       <ul className='hidden md:flex items-start gap-5 font-medium'>
-        <NavLink className='hover:translate-y-[-5px] transition-all duration-500' to={'/'}>
+        <NavLink className='hover:translate-y-[-5px] transition-all duration-5w00' to={'/'}>
           <li className='py-1' >HOME</li>
           <hr className=' w-full border-t-2 border-[#5f6FFF] m-auto hidden' />
         </NavLink>
-        <NavLink className='hover:translate-y-[-5px] transition-all duration-500' to={'/doctors'}>
+        <NavLink className='hover:translate-y-[-5px] transition-all duration-5w00' to={'/doctors'}>
           <li className='py-1' >ALL DOCTORS</li>
           <hr className=' w-full border-t-2 border-[#5f6FFF] m-auto hidden' />
         </NavLink>
-        <NavLink className='hover:translate-y-[-5px] transition-all duration-500' to={'/about'}>
+        <NavLink className='hover:translate-y-[-5px] transition-all duration-5w00' to={'/about'}>
           <li className='py-1' >ABOUT</li>
           <hr className='w-full border-t-2 border-[#5f6FFF] m-auto hidden' />
         </NavLink>
-        <NavLink className='hover:translate-y-[-5px] transition-all duration-500' to={'/contact'}>
+        <NavLink className='hover:translate-y-[-5px] transition-all duration-5w00' to={'/contact'}>
           <li className='py-1' >CONTACTS</li>
           <hr className=' w-full border-t-2 border-[#5f6FFF] m-auto hidden' />
         </NavLink>
