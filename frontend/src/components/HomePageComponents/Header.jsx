@@ -3,7 +3,7 @@ import { assets } from '../../assets/assets_frontend/assets'
 
 export default function Header() {
     return (
-        <div className='flex flex-col md:flex-row flex-wrap bg-[#5f6FFF] rounded-lg px-6 md:px-10 lg:px-20'>
+        <div className='flex flex-col md:flex-row mt-5 flex-wrap bg-[#5f6FFF] rounded-lg px-6 md:px-10 lg:px-20'>
 
             {/* Left side */}
 
