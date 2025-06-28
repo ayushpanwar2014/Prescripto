@@ -2,10 +2,19 @@ import express from 'express';
 import { dbConnected } from './config/dbConnect.js';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import { errorMiddlewares } from './middlewares/error-middlewares.js';
+import { securityMiddleware } from './middlewares/security-middlewares.js';
+import { connectCloudinary } from './config/cloudinary.js';
+import Admin_Router from './src/routes/admin-routes.js';
 
+
+// app config
 const app = express();
 const PORT = process.env.PORT;
+connectCloudinary();
 
+// Calling advanced security middleware
+securityMiddleware(app);
 
 //middlewares
 app.use(express.json());
@@ -15,9 +24,11 @@ app.use(morgan('tiny'));
 //middleware to get ip address of the user network
 app.set('trust proxy', false);
 
-app.get('/', (req, res) => {
-    res.send('Hello')
-})
+//api end point
+app.use('/api/admin', Admin_Router);
+
+//error middleware
+app.use(errorMiddlewares);
 
 dbConnected().then(() => {
     app.listen(PORT, () => {
