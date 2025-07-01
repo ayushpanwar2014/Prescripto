@@ -2,7 +2,7 @@ import DoctorModel from "../models/doctor-model.js";
 import { v2 as cloudinary } from 'cloudinary'
 import jwt from 'jsonwebtoken'
 
-
+//add doctors
 export const addDoctors = async (req, res, next) => {
 
     const { name, email, password, speciality, degree, experience, about, available, fees, address, slots_booked } = req.body;
@@ -19,7 +19,7 @@ export const addDoctors = async (req, res, next) => {
         const imageURL = imageUpload.secure_url;
 
         //Creating User
-        const createUser = await DoctorModel.create({
+        await DoctorModel.create({
             name: name,
             email: email,
             password: password,
@@ -47,9 +47,10 @@ export const addDoctors = async (req, res, next) => {
     }
 }
 
+//login
 export const loginAdmin = async (req, res, next) => {
     try {
-        const { email, password } = req.body.loginData;
+        const { email, password } = req.body;
 
 
 
@@ -84,6 +85,7 @@ export const loginAdmin = async (req, res, next) => {
     }
 }
 
+//logout doctors
 export const logoutAdmin = (req, res) => {
 
     try {
@@ -96,7 +98,7 @@ export const logoutAdmin = (req, res) => {
 
     } catch (err) {
 
-         const error = {
+        const error = {
             status: 401,
             message: 'Something is Wrong!'
         };

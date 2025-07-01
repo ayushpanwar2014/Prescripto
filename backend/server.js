@@ -6,6 +6,7 @@ import { errorMiddlewares } from './middlewares/error-middlewares.js';
 import { securityMiddleware } from './middlewares/security-middlewares.js';
 import { connectCloudinary } from './config/cloudinary.js';
 import Admin_Router from './src/routes/admin-routes.js';
+import Doctor_Router from './src/routes/doctor-routes.js';
 
 
 // app config
@@ -26,6 +27,7 @@ app.set('trust proxy', false);
 
 //api end point
 app.use('/api/admin', Admin_Router);
+app.use('/api/doctor', Doctor_Router);
 
 //error middleware
 app.use(errorMiddlewares);

@@ -19,7 +19,7 @@ export default function Login() {
     try {
 
       if (state === 'Admin') {
-        const response = await axios.post(backendURL + '/api/admin/admin-login', { loginData }, { withCredentials: true });
+        const response = await axios.post(backendURL + '/api/admin/admin-login', loginData , { withCredentials: true });
 
         if (response.data.success) {
           setAdminToken(response.data.email)

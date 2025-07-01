@@ -59,7 +59,7 @@ export const doctor_signup_schema = z.object({
         .max(1024, { message: "speciality must not be 1024 characters!" }),
 
     degree: z
-        .string({ required_error: "speciality is required!" })
+        .string({ required_error: "Degree is required!" })
         .min(3, { message: "speciality must be of 3 characters!" })
         .max(1024, { message: "speciality must not be 1024 characters!" }),
 
