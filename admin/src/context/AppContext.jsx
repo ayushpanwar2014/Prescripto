@@ -1,15 +1,11 @@
+import { AppContext } from "./exportAllContext";
 
-import { doctors } from "../assets/assets_frontend/assets";
-import { AppContext } from "./exportAppContext";
 
 
 const AppContextProvider = (props) => {
 
-    const currencySymbol = '$';
-
     const value = {
-        doctors,
-        currencySymbol
+
     }
 
     return (
@@ -17,6 +13,7 @@ const AppContextProvider = (props) => {
             {props.children}
         </AppContext.Provider>
     )
+
 }
 
 export default AppContextProvider;

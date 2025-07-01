@@ -21,10 +21,20 @@ export const securityMiddleware = (app) => {
         })
     )
 
+    //frontend and admin
+    const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+
     // 2. CORS configuration for React app on 5173
     app.use(
         cors({
-            origin: "http://localhost:5173",
+            origin: function (origin, callback) {
+                if(!origin || allowedOrigins.includes(origin)){
+                    callback(null, true);
+                }
+                else{
+                    callback(new Error('Not allowed by CORS'));
+                }
+            },
             methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS",
             credentials: true
         })

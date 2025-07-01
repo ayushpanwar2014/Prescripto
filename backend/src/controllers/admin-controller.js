@@ -49,7 +49,9 @@ export const addDoctors = async (req, res, next) => {
 
 export const loginAdmin = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body.loginData;
+
+
 
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSSWORD) {
 
@@ -65,7 +67,7 @@ export const loginAdmin = async (req, res, next) => {
                 secure: process.env.NODE_ENV === 'production', // only over HTTPS in prod
                 sameSite: 'Strict', // 'Lax' is OK if frontend/backend are same-origin
                 maxAge: 24 * 60 * 60 * 1000, // 1 day
-            }).status(200).json({success: true, msg: 'Login Successfull!'});
+            }).status(200).json({ success: true, msg: 'Login Successfull!', email: email });
 
         }
         else {
@@ -81,3 +83,25 @@ export const loginAdmin = async (req, res, next) => {
         next(error);
     }
 }
+
+export const logoutAdmin = (req, res) => {
+
+    try {
+
+        res.clearCookie('adminToken', {
+            httpOnly: true,
+            sameSite: 'Strict',
+            secure: process.env.NODE_ENV === 'production', // true in production
+        }).status(200).json({ success: true, msg: 'Logged out successfully' });
+
+    } catch (err) {
+
+         const error = {
+            status: 401,
+            message: 'Something is Wrong!'
+        };
+        next(error);
+
+    }
+
+};

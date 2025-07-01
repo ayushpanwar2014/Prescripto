@@ -27,7 +27,7 @@ const MyProfile = () => {
 
       {
         isEdit ?
-          <input type="text" className='bg-gray-200 text-3xl font-medium max-w-60 mt-4 text-center' value={userData.name} name='name' onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })} />
+          <input type="text" className='bg-gray-200 text-3xl font-medium max-w-60 mt-4 text-center focus:outline-[#5E5E5E] focus:ring-0' value={userData.name} name='name' onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })} />
           : <p className='font-medium text-3xl text-neutral-800 mt-4'>{userData.name}</p>
       }
 
@@ -40,16 +40,16 @@ const MyProfile = () => {
           <p className='font-medium'>Phone:</p>
           {
             isEdit ?
-              <input className='bg-gray-200 max-w-52' type="text" value={userData.phone} name='phone' onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })} />
+              <input className='bg-gray-200 max-w-52 focus:outline-[#5E5E5E] focus:ring-0' type="text" value={userData.phone} name='phone' onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })} />
               : <p className='text-blue-400'>{userData.phone}</p>
           }
           <p className='font-medium'>Address:</p>
           {
             isEdit ?
               <p>
-                <input className='bg-gray-200 ' onChange={(e) => setUserData({ ...userData, address: { ...userData.address, line1: e.target.value } })} value={userData.address.line1} type="text" />
+                <input className='bg-gray-200 focus:outline-[#5E5E5E] focus:ring-0' onChange={(e) => setUserData({ ...userData, address: { ...userData.address, line1: e.target.value } })} value={userData.address.line1} type="text" />
                 <br />
-                <input className='bg-gray-200 ' onChange={(e) => setUserData({ ...userData, address: { ...userData.address, line2: e.target.value } })} value={userData.address.line2} type="text" />
+                <input className='bg-gray-200 focus:outline-[#5E5E5E] focus:ring-0' onChange={(e) => setUserData({ ...userData, address: { ...userData.address, line2: e.target.value } })} value={userData.address.line2} type="text" />
               </p>
               :
               <p className='text-gray-500'>
@@ -77,7 +77,7 @@ const MyProfile = () => {
           <p className='font-medium'>BirthDay:</p>
           {
             isEdit ?
-              <input className='max-w-28 bg-gray-200' onChange={(e) => setUserData({ ...userData, dob: e.target.value })} value={userData.dob} type="date" />
+              <input className='max-w-28 bg-gray-200 focus:outline-[#5E5E5E] focus:ring-0' onChange={(e) => setUserData({ ...userData, dob: e.target.value })} value={userData.dob} type="date" />
               : <p className='text-gray-400'>{userData.dob}</p>
 
           }

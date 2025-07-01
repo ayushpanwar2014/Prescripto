@@ -30,16 +30,16 @@ const Login = () => {
           state === 'Sign Up' &&
           <div className='w-full'>
             <p>Full Name</p>
-            <input className='border border-zinc-300 rounded w-full p-2 mt-1' autoComplete="name" type="text" onChange={onChangeHandler} value={signUp.name} name='name' required />
+            <input className='border border-zinc-300 rounded w-full p-2 mt-1 focus:outline-[#5E5E5E] focus:ring-0' autoComplete="name" type="text" onChange={onChangeHandler} value={signUp.name} name='name' required />
           </div>
         }
         <div className='w-full'>
           <p>Email</p>
-          <input className='border border-zinc-300 rounded w-full p-2 mt-1' autoComplete="email" type="email" onChange={onChangeHandler} value={signUp.email} name='email' required />
+          <input className='border border-zinc-300 rounded w-full p-2 mt-1 focus:outline-[#5E5E5E] focus:ring-0' autoComplete="email" type="email" onChange={onChangeHandler} value={signUp.email} name='email' required />
         </div>
         <div className='w-full'>
           <p>Password</p>
-          <input className='border border-zinc-300 rounded w-full p-2 mt-1' autoComplete="password" type="password" onChange={onChangeHandler} value={signUp.password} name='password' required />
+          <input className='border border-zinc-300 rounded w-full p-2 mt-1 focus:outline-[#5E5E5E] focus:ring-0' autoComplete="password" type="password" onChange={onChangeHandler} value={signUp.password} name='password' required />
         </div>
         <button disabled={!signUp.email || !signUp.name || !signUp.password} className='bg-[#5f6FFF] text-white w-full py-2 rounded-md text-base'>{state === 'Sign Up' ? 'Create Account' : 'Login'}</button>
 
