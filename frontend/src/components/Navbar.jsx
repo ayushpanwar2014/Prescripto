@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { assets } from '../assets/assets_frontend/assets'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useContext } from 'react';
+import { AppContext } from '../context/exportAppContext';
 
 const Navbar = () => {
 
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-  const [token, setToken] = useState(true);
+  const { user, fetchLogout } = useContext(AppContext);
   const [openDropdown, setOpenDropodown] = useState(false);
-
-
 
   return (
     <div className='flex items-center justify-between text-sm py-4 border-b border-b-gray-400' >
@@ -37,7 +37,7 @@ const Navbar = () => {
 
       <div className='flex items-center gap-4'>
         {
-          token ?
+          user ?
             <div onClick={() => setOpenDropodown((prev) => !prev)} className='flex items-center gap-2 cursor-pointer group relative'>
               <img className='w-8 rounded-full' src={assets.profile_pic} alt='profile-pic' />
               <img className='w-2.5' src={assets.dropdown_icon} alt='dropdown-icon' />
@@ -45,7 +45,7 @@ const Navbar = () => {
                 <div className='min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4'>
                   <p onClick={() => navigate('my-profile')} className='hover:text-black cursor-pointer'>My Profile</p>
                   <p onClick={() => navigate('my-appointments')} className='hover:text-black cursor-pointer'>My Appointments</p>
-                  <p onClick={() => setToken(false)} className='hover:text-black cursor-pointer'>Logout</p>
+                  <p onClick={() => fetchLogout()} className='hover:text-black cursor-pointer'>Logout</p>
                 </div>
               </div>
             </div>
@@ -60,10 +60,10 @@ const Navbar = () => {
             <img className='w-7' onClick={() => setShowMenu(false)} src={assets.cross_icon} alt="" />
           </div>
           <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium'>
-            <NavLink  onClick={() => setShowMenu(false)} to='/'> <p className='px-4 py-2 rounded inline-block '>HOME</p> </NavLink>
+            <NavLink onClick={() => setShowMenu(false)} to='/'> <p className='px-4 py-2 rounded inline-block '>HOME</p> </NavLink>
             <NavLink onClick={() => setShowMenu(false)} to='/doctors'> <p className='px-4 py-2 rounded inline-block '>ALL DOCTORS</p> </NavLink>
-            <NavLink  onClick={() => setShowMenu(false)} to='/about'> <p className='px-4 py-2 rounded inline-block '>ABOUT</p> </NavLink>
-            <NavLink  onClick={() => setShowMenu(false)} to='/contact'> <p className='px-4 py-2 rounded inline-block '>CONTACT</p> </NavLink>
+            <NavLink onClick={() => setShowMenu(false)} to='/about'> <p className='px-4 py-2 rounded inline-block '>ABOUT</p> </NavLink>
+            <NavLink onClick={() => setShowMenu(false)} to='/contact'> <p className='px-4 py-2 rounded inline-block '>CONTACT</p> </NavLink>
           </ul>
         </div>
       </div>

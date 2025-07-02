@@ -40,6 +40,8 @@ export const login = async (req, res, next) => {
     try {
 
         const { email, password } = req.body;
+        console.log(email, password);
+
 
         //checking if user exist in database
 
@@ -81,7 +83,7 @@ export const logout = async (req, res, next) => {
             status: 401,
             message: "Not Authorized"
         }
-        next(error)
+        next(error);
     }
 };
 
@@ -101,8 +103,26 @@ export const authUser = async (req, res, next) => {
             await SessionModel.findByIdAndDelete(_id);
 
             //creating new session in database
-            // creating access token and refresh token and sending to client
-            await authenticateUser(req, res, response);
+            const newSession = await response.createSession({ ip: req.ip, userAgent: req.headers["user-agent"] });
+
+            const accessToken = await response.createAccessToken(newSession._id);
+            const refreshToken = await response.createRefreshToken(newSession._id);
+
+            res.cookie('accessToken', accessToken, {
+                httpOnly: true,
+                secure: isProduction,
+                sameSite: 'strict',
+                maxAge: accessTokenAge,
+                path: '/',
+            });
+
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: isProduction,
+                sameSite: 'strict',
+                maxAge: refreshTokenAge,
+                path: '/',
+            })
         }
 
         res.status(200).json({ success: true, data: response });

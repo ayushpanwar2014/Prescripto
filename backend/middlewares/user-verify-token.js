@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import SessionModel from "../src/models/session-model.js";
 
-
 const isProduction = process.env.NODE_ENV === 'production';
 
 //decrypt accessToken
@@ -12,7 +11,7 @@ const decodeToken = (token) => {
 export const verifyToken = async (req, res, next) => {
 
     const accessToken = req.cookies.accessToken;
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.cookies.refreshToken;    
     
     req.user = null;
     
@@ -70,6 +69,8 @@ export const verifyToken = async (req, res, next) => {
             //checking if accesstoken verified
             if (verifyAccessToken) {
 
+                console.log(verifyAccessToken);
+                
                 req.user = verifyAccessToken;
                 return next();
             }
@@ -82,6 +83,7 @@ export const verifyToken = async (req, res, next) => {
 
                 // Delete old refresh token/session here
                 // await SessionModel.findByIdAndDelete(UserIdAndSessionId._id);
+                
 
                 if (UserIdAndSessionId) {
                     req.user = UserIdAndSessionId;
@@ -161,8 +163,8 @@ const refreshTokens = async (refreshToken) => {
 export const verifyRefreshTokenAndLogout = async (req, res, next) => {
 
     const sessionID = req.user.session;
-
-
+    console.log(sessionID);
+    
     try {
 
         if (sessionID) {

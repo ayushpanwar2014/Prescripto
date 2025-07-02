@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { assets } from '../assets/assets_frontend/assets'
+import { useContext } from 'react'
+import { AppContext } from '../context/exportAppContext'
 
 const MyProfile = () => {
 
@@ -16,19 +18,19 @@ const MyProfile = () => {
     dob: '2003-06-21'
   })
 
-  const [isEdit, setIsEdit] = useState(false);
+  const {user} = useContext(AppContext);
 
-  console.log(userData);
+  const [isEdit, setIsEdit] = useState(false);
 
 
   return (
     <div className='max-w-lg flex flex-col gap-2 text-sm'>
-      <img className='w-36 rounded' src={userData.image} alt="" />
+      <img className='w-36 rounded' src={user.image} alt="" />
 
       {
         isEdit ?
           <input type="text" className='bg-gray-200 text-3xl font-medium max-w-60 mt-4 text-center focus:outline-[#5E5E5E] focus:ring-0' value={userData.name} name='name' onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })} />
-          : <p className='font-medium text-3xl text-neutral-800 mt-4'>{userData.name}</p>
+          : <p className='font-medium text-3xl text-neutral-800 mt-4'>{user?.name}</p>
       }
 
       <hr className='bg-zinc-400 h-[1px] border-none' />
@@ -36,12 +38,12 @@ const MyProfile = () => {
         <p className='text-neutral-500 underline mt-3'>Contact INFORMATION</p>
         <div className='grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-neutral-700'>
           <p className='font-medium '>Email id:</p>
-          <p className='text-blue-500'>{userData.email}</p>
+          <p className='text-blue-500'>{user.email}</p>
           <p className='font-medium'>Phone:</p>
           {
             isEdit ?
               <input className='bg-gray-200 max-w-52 focus:outline-[#5E5E5E] focus:ring-0' type="text" value={userData.phone} name='phone' onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })} />
-              : <p className='text-blue-400'>{userData.phone}</p>
+              : <p className='text-blue-400'>{user.phone}</p>
           }
           <p className='font-medium'>Address:</p>
           {
@@ -53,9 +55,9 @@ const MyProfile = () => {
               </p>
               :
               <p className='text-gray-500'>
-                {userData.address.line1}
+                {user?.address?.line1}
                 <br />
-                {userData.address.line2}
+                {user?.address?.line2}
               </p>
 
           }
@@ -72,13 +74,13 @@ const MyProfile = () => {
                 <option value="Female">Female</option>
                 <option value="Rather Not to Say">Rather Not to Say</option>
               </select>
-              : <p className='text-gray-400'>{userData.gender}</p>
+              : <p className='text-gray-400'>{user.gender}</p>
           }
           <p className='font-medium'>BirthDay:</p>
           {
             isEdit ?
               <input className='max-w-28 bg-gray-200 focus:outline-[#5E5E5E] focus:ring-0' onChange={(e) => setUserData({ ...userData, dob: e.target.value })} value={userData.dob} type="date" />
-              : <p className='text-gray-400'>{userData.dob}</p>
+              : <p className='text-gray-400'>{user.dob}</p>
 
           }
         </div>

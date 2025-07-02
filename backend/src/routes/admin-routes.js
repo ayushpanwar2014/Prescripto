@@ -16,6 +16,7 @@ Admin_Router.post('/admin-logout', authAdmin_VerifyToken, logoutAdmin);
 
 //doctors
 Admin_Router.get('/all-doctors', authAdmin_VerifyToken, getAllDoctors);
+Admin_Router.get('/all-doctors', authAdmin_VerifyToken, getAllDoctors);
 Admin_Router.post('/change-availability', authAdmin_VerifyToken, changeAvailability);
 
 

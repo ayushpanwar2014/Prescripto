@@ -12,30 +12,87 @@ const AppContextProvider = (props) => {
     const backendURL = import.meta.env.VITE_BACKEND_URL;
     const [doctors, setDoctors] = useState([]);
 
+    const [user, setUser] = useState("");
+
+    //logout clear cookies
+    const fetchLogout = useCallback(async () => {
+
+        try {
+
+            const resp = await axios.post(backendURL + '/api/user/logout', {}, { withCredentials: true });
+
+            if (resp.data.success) {
+                toast.success(resp.data.msg);
+                localStorage.removeItem('userData');
+                setUser("");
+            }
+
+        } catch (error) {
+            console.log(error.response.data.msg);
+        }
+    }, [backendURL]);
+
+    //get user
+    const fetchUser = useCallback(async () => {
+        try {
+
+            const response = await fetch(backendURL + '/api/user/getuser', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }).then((data) => data.json());
+
+    
+            if (response.success) {
+                setUser(response.data);
+                localStorage.setItem('userData', JSON.stringify(response.data));
+                toast.success(response.data.msg)
+            }
+            else if(!response.success){
+                localStorage.setItem('userData', false);
+                setUser("");
+            }
+
+        } catch (err) {
+            console.log(err)
+            // toast.error(error.response.data.msg);
+        }
+    }, [backendURL]);
+
+
+
+
     //get all doctors 
     const getAllDoctors = useCallback(async () => {
         try {
 
-            const response = await axios.get(backendURL + '/api/admin/all-doctors', { withCredentials: true });
+            const response = await axios.get(backendURL + '/api/doctor/all-doctors', { withCredentials: true });
 
             if (response.data.success) {
                 setDoctors(response.data.allDoctors);
-                
             }
 
         } catch (error) {
             toast.error(error.response.data.msg || "Failed to fetch doctors");
         }
     }, [backendURL])
-    
+
 
     useEffect(() => {
-        getAllDoctors()
-    }, [getAllDoctors]);
+        fetchUser();
+        getAllDoctors();
+    }, [getAllDoctors, fetchUser]);
+
 
     const value = {
         doctors,
-        currencySymbol
+        currencySymbol,
+        fetchUser,
+        fetchLogout,
+        user,
+        backendURL,
     }
 
     return (

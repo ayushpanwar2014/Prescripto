@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
+import axios from 'axios'
+import { AppContext } from '../context/exportAppContext';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
   const [state, setState] = useState('Sign Up');
+  const { backendURL, fetchUser } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const [signUp, setSignUp] = useState({
     email: '',
@@ -17,8 +23,35 @@ const Login = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(signUp);
-    
+    try {
+
+      if (state === 'Log In') {
+
+        const response = await axios.post(backendURL + '/api/user/login', signUp, { withCredentials: true });
+
+        if (response.data.success) {
+          fetchUser();
+          navigate('/');
+          toast.success(response.data.msg)
+        }
+      }
+      else if (state === 'Sign Up') {
+        const response = await axios.post(backendURL + '/api/user/register', signUp, { withCredentials: true });
+
+        if (response.data.success) {
+          fetchUser();
+          navigate('/');
+          toast.success(response.data.msg)
+        }
+      }
+
+
+    } catch (error) {
+
+      toast.error(error.response.data.msg)
+
+    }
+
   }
 
   return (
@@ -41,7 +74,7 @@ const Login = () => {
           <p>Password</p>
           <input className='border border-zinc-300 rounded w-full p-2 mt-1 focus:outline-[#5E5E5E] focus:ring-0' autoComplete="password" type="password" onChange={onChangeHandler} value={signUp.password} name='password' required />
         </div>
-        <button disabled={!signUp.email || !signUp.name || !signUp.password} className='bg-[#5f6FFF] text-white w-full py-2 rounded-md text-base'>{state === 'Sign Up' ? 'Create Account' : 'Login'}</button>
+        <button type='submit' disabled={!signUp.email || !signUp.password} className='bg-[#5f6FFF] text-white w-full py-2 rounded-md text-base cursor-pointer'>{state === 'Sign Up' ? 'Create Account' : 'Login'}</button>
 
         {
           state === 'Sign Up' ?
