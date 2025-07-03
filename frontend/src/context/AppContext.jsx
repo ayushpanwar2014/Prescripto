@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import axios from 'axios';
 import { AppContext } from "./exportAppContext";
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 
 const AppContextProvider = (props) => {
@@ -11,6 +12,7 @@ const AppContextProvider = (props) => {
     const currencySymbol = '$';
     const backendURL = import.meta.env.VITE_BACKEND_URL;
     const [doctors, setDoctors] = useState([]);
+    const navigate = useNavigate()
 
     const [user, setUser] = useState("");
 
@@ -25,12 +27,13 @@ const AppContextProvider = (props) => {
                 toast.success(resp.data.msg);
                 localStorage.removeItem('userData');
                 setUser("");
+                navigate('/')
             }
 
         } catch (error) {
             console.log(error.response.data.msg);
         }
-    }, [backendURL]);
+    }, [backendURL, navigate]);
 
     //get user
     const fetchUser = useCallback(async () => {
@@ -44,12 +47,12 @@ const AppContextProvider = (props) => {
                 credentials: 'include'
             }).then((data) => data.json());
 
-    
+
             if (response.success) {
                 setUser(response.data);
                 localStorage.setItem('userData', JSON.stringify(response.data));
             }
-            else if(!response.success){
+            else if (!response.success) {
                 localStorage.removeItem('userData');
                 setUser("");
             }

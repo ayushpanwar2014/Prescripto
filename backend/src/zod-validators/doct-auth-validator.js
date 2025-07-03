@@ -1,9 +1,6 @@
 import { z } from 'zod';
 
-
 // Zod Schema for validation
-
-
 
 //for image validation
 const imageSchema = z

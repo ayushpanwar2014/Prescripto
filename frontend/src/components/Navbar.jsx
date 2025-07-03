@@ -39,7 +39,7 @@ const Navbar = () => {
         {
           user ?
             <div onClick={() => setOpenDropodown((prev) => !prev)} className='flex items-center gap-2 cursor-pointer group relative'>
-              <img className='w-8 rounded-full' src={assets.profile_pic} alt='profile-pic' />
+              <img className='w-8 rounded-full' src={user ? user?.image : assets.profile_pic} alt='profile-pic' />
               <img className='w-2.5' src={assets.dropdown_icon} alt='dropdown-icon' />
               <div className={`absolute top-0 right-0 pt-14 w-35 text-base font-medium text-gray-600 z-20  ${openDropdown ? '' : 'hidden'}`}>
                 <div className='min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4'>

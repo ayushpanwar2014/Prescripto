@@ -42,3 +42,61 @@ export const user_login_schema = z.object({
         .max(1024, { message: "Password must not be 1024 characters!" }),
 
 })
+
+//for image validation
+const imageSchema = z
+    .object({
+        mimetype: z.string().refine((val) => val.startsWith('image/'), {
+            message: 'Only image files are allowed',
+        }),
+        size: z.number().max(5 * 1024 * 1024, {
+            message: 'Image size must be under 5MB',
+        }),
+        path: z.string({
+            required_error: 'File path is required',
+        }),
+        filename: z.string(),
+    });
+
+//for address validation
+const addressSchema = z.object({
+    line1: z.string({
+        required_error: "Address line1 is required",
+    }),
+    line2: z.string().optional(), // line2 is allowed but not required
+});
+
+
+//for signup
+export const user_update_schema = z.object({
+    name: z
+        .string({ required_error: "Name is required!" })
+        .trim()
+        .min(3, { message: "Name must be atleast 3 characters." }).
+        max(255, { message: "Name must not be of 255 characters." }),
+
+    phone: z
+        .string({ required_error: "phone is required!" })
+        .trim()
+        .min(3, { message: "phone must be atleast 3 characters." }).
+        max(255, { message: "phone must not be of 255 characters." }),
+
+    dob: z
+        .string({ required_error: "phone is required!" })
+        .trim()
+        .min(3, { message: "phone must be atleast 3 characters." }).
+        max(255, { message: "phone must not be of 255 characters." }),
+
+    gender: z
+        .string({ required_error: "phone is required!" })
+        .trim()
+        .min(3, { message: "phone must be atleast 3 characters." }).
+        max(255, { message: "phone must not be of 255 characters." }),
+
+    image: imageSchema.optional(),
+
+    address: addressSchema.required({
+        required_error: "Address is required",
+    }),
+
+})

@@ -1,5 +1,6 @@
 import SessionModel from "../models/session-model.js";
 import UserModel from "../models/user-model.js";
+import { v2 as cloudinary } from 'cloudinary';
 
 export const isProduction = process.env.NODE_ENV === 'production';
 
@@ -92,7 +93,7 @@ export const authUser = async (req, res, next) => {
         //userId and current sessionID
         const { userID, _id } = req.user;
 
-        const response = await UserModel.findById({ _id: userID }).select('-password');
+        const response = await UserModel.findById({ _id: userID }).select('-password').select('-_id');
 
         //creating new accessToken if there is refreshtoken
         if (!req.cookies.accessToken && req.cookies.refreshToken) {
@@ -170,4 +171,48 @@ const authenticateUser = async (req, res, user) => {
     });
 
 };
+
+export const updateUserProfile = async (req, res, next) => {
+
+    try {
+        const { userID } = req.user;
+        const { name, phone, address, dob, gender } = req.body;
+
+        const imageFile = req.file;
+
+        if (imageFile) {
+            //image upload in cloudinary
+            const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' });
+            const imageURL = imageUpload.secure_url;
+
+            await UserModel.findByIdAndUpdate(userID, {
+                name: name,
+                phone: phone,
+                address: address,
+                dob: dob,
+                gender: gender,
+                image: imageURL
+            });
+        }
+        else {
+            await UserModel.findByIdAndUpdate(userID, {
+                name: name,
+                phone: phone,
+                address: address,
+                dob: dob,
+                gender: gender,
+            });
+        }
+
+        res.status(200).json({ success: true, msg: "User Updated Successfully!" });
+
+    } catch (err) {
+        const error = {
+            status: 401,
+            message: 'UnAuthorized User'
+        };
+        next(error);
+    }
+
+}
 

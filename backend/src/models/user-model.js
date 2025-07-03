@@ -25,8 +25,8 @@ const UserSchema = new mongoose.Schema({
     address: {
         type: Object,
         default: {
-            line1: "",
-            line2: ""
+            line1: "Not Selected",
+            line2: "Not Selected"
         }
     },
     gender: {
@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        default: ""
+        default: "Not Selected"
     }
 },
     { timestamps: true }
