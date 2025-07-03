@@ -48,10 +48,9 @@ const AppContextProvider = (props) => {
             if (response.success) {
                 setUser(response.data);
                 localStorage.setItem('userData', JSON.stringify(response.data));
-                toast.success(response.data.msg)
             }
             else if(!response.success){
-                localStorage.setItem('userData', false);
+                localStorage.removeItem('userData');
                 setUser("");
             }
 

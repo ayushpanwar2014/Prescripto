@@ -68,8 +68,6 @@ export const verifyToken = async (req, res, next) => {
 
             //checking if accesstoken verified
             if (verifyAccessToken) {
-
-                console.log(verifyAccessToken);
                 
                 req.user = verifyAccessToken;
                 return next();
@@ -163,7 +161,6 @@ const refreshTokens = async (refreshToken) => {
 export const verifyRefreshTokenAndLogout = async (req, res, next) => {
 
     const sessionID = req.user.session;
-    console.log(sessionID);
     
     try {
 

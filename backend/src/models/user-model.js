@@ -63,12 +63,8 @@ UserSchema.pre('save', async function (next) {
     }
 
     try {
-
-
         const hashedPassword = await argon2.hash(user.password, options);
-
         user.password = hashedPassword;
-
         next()
 
 
@@ -85,7 +81,6 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
     if (!update || !update.password) {
         return next();
     }
-
     try {
 
         const hashedPassword = await argon2.hash(update.password, options);

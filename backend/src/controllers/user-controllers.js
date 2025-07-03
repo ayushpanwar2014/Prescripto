@@ -10,7 +10,6 @@ export const refreshTokenAge = 1000 * 60 * 60 * 24 * 7; // 7 days
 //register
 export const register = async (req, res, next) => {
     try {
-
         const { name, email, password } = req.body;
 
         //Checking User Exist
@@ -31,7 +30,7 @@ export const register = async (req, res, next) => {
         await authenticateUser(req, res, createUser);
 
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
 
@@ -40,11 +39,8 @@ export const login = async (req, res, next) => {
     try {
 
         const { email, password } = req.body;
-        console.log(email, password);
-
 
         //checking if user exist in database
-
         const userExist = await UserModel.findOne({ email: email });
 
         if (!userExist) return res.status(404).json({ success: false, msg: "Invalid Credentials!" });
@@ -58,12 +54,14 @@ export const login = async (req, res, next) => {
         // creating access token and refresh token and sending to client
         await authenticateUser(req, res, userExist);
 
-    } catch (error) {
-
+    } catch (err) {
+        const error = {
+            status: 401,
+            message: "Not Authenticated"
+        }
         next(error);
     }
 };
-
 
 //logout
 export const logout = async (req, res, next) => {
@@ -133,7 +131,6 @@ export const authUser = async (req, res, next) => {
             status: 401,
             message: 'UnAuthorized User'
         };
-
         next(error);
     }
 };
