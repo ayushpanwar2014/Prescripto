@@ -1,3 +1,5 @@
+import AppointmentModel from "../models/appointment-model.js";
+import DoctorModel from "../models/doctor-model.js";
 import SessionModel from "../models/session-model.js";
 import UserModel from "../models/user-model.js";
 import { v2 as cloudinary } from 'cloudinary';
@@ -172,6 +174,7 @@ const authenticateUser = async (req, res, user) => {
 
 };
 
+//update user profile
 export const updateUserProfile = async (req, res, next) => {
 
     try {
@@ -213,6 +216,109 @@ export const updateUserProfile = async (req, res, next) => {
         };
         next(error);
     }
-
 }
 
+
+// Book appointment controller
+export const book_appointment = async (req, res, next) => {
+    try {
+        // Destructure authenticated user ID from request
+        const { userID } = req.user;
+
+        // Destructure appointment details from request body
+        const { docID, slotDate, slotTime } = req.body;
+
+        // Fetch doctor data by ID and exclude password
+        const docData = await DoctorModel.findById({ _id: docID }).select('-password');
+
+        // Check if doctor is currently available
+        if (!docData.available) {
+            return res.status(400).json({ success: false, msg: 'Doctor not available at the moment!' });
+        }
+
+        // Get current slots_booked object from doctor document
+        let slots_booked = docData.slots_booked;
+
+        // Check if slots already exist for the selected date
+        if (slots_booked[slotDate]) {
+            // Check if the selected time slot is already booked
+            if (slots_booked[slotDate].includes(slotTime)) {
+                return res.status(400).json({ success: false, msg: 'Slot not available at the Time!' });
+            } else {
+                // If the time is free, add it to the booked slots
+                slots_booked[slotDate].push(slotTime);
+            }
+        } else {
+            // If the date has no existing slots, initialize and add the time
+            slots_booked[slotDate] = [];
+            slots_booked[slotDate].push(slotTime);
+        }
+
+        // Fetch the user data (excluding password)
+        const userData = await UserModel.findById({ _id: userID }).select('-password ');
+
+        // Remove internal doctor's booking data to prevent saving it in appointment
+        delete docData.slots_booked;
+
+        // Prepare appointment object to be saved
+        const appointmentData = {
+            userID,              // ID of the patient booking
+            docID,               // ID of the doctor
+            userData,            // Snapshot of the user's data at booking time
+            docData,             // Snapshot of the doctor's public data
+            amount: docData.fees, // Doctor's consultation fee
+            slotDate,            // Date of the appointment
+            slotTime,            // Time of the appointment
+            date: Date.now(),    // Timestamp of when the appointment was created
+        }
+
+        // Create and save the appointment
+        const newAppointment = new AppointmentModel(appointmentData);
+        await newAppointment.save();
+
+        // Update doctor's slot booking in the database
+        try {
+            await DoctorModel.findByIdAndUpdate(docID, { slots_booked });
+        } catch (updateErr) {
+            // If slot update fails, delete the saved appointment for consistency
+            console.error("Failed to update doctor's booked slots:", updateErr);
+            await AppointmentModel.findByIdAndDelete(newAppointment._id);
+
+            return res.status(500).json({
+                success: false,
+                msg: "Appointment booking failed during slot update. Please try again.",
+            });
+        }
+
+        // Respond with success message
+        res.status(200).json({ success: true, msg: 'Appointment Booked SuccessFully!' });
+
+    } catch (err) {
+        // Handle any unexpected errors
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+}
+
+//display all appointment of the user 
+export const displayAllAppointment = async (req, res, next) => {
+
+    try {
+
+        const {userID} = req.user;
+        const appointments = await AppointmentModel.find({userID: userID});
+
+        // Respond with success message
+        res.status(200).json({ success: true, appointments: appointments });
+
+    } catch (err) {
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+}

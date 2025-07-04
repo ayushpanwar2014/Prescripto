@@ -95,6 +95,7 @@ const AppContextProvider = (props) => {
         fetchLogout,
         user,
         backendURL,
+        getAllDoctors
     }
 
     return (
