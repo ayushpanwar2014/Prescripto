@@ -9,8 +9,22 @@ const AdminContextProvider = (props) => {
     const [adminToken, setAdminToken] = useState('');
     const navigate = useNavigate();
     const [allDoctors, setAllDoctors] = useState([]);
+    const [appointments, setAppointments] = useState([]);
+    const [dashData, setDashData] = useState([]);
 
     const backendURL = import.meta.env.VITE_BACKEND_URL;
+
+    //get Dashboard data
+    const getDashData = useCallback( async () => {
+        try {
+            const response = await axios.get(backendURL+ '/api/admin/dashboard',{withCredentials: true});
+            if(response.data.success){
+                setDashData(response.data.dashData);
+            }
+        } catch (error) {
+             toast.error(error.response.data.msg);
+        }
+    }, [backendURL])
 
     //get all doctors 
     const getAllDoctors = useCallback(async () => {
@@ -62,6 +76,36 @@ const AdminContextProvider = (props) => {
 
     }, [navigate, backendURL])
 
+    //all appointments
+    const getAllAppointment = useCallback(async () => {
+
+        try {
+            const response = await axios.get(backendURL + '/api/admin/display-appointments', { withCredentials: true });
+
+            console.log(response.data.appointments);
+            if (response.data.success) {
+
+                setAppointments(response.data.appointments);
+            }
+
+        } catch (error) {
+            toast.error(error.response.data.msg);
+        }
+    }, [backendURL])
+
+    const onClickCancelAppointment = async (appointmentID) => {
+    try {
+      const response = await axios.post(backendURL + '/api/admin/cancel-appointments', { appointmentID }, { withCredentials: true });
+      if (response.data.success) {
+        getDashData();
+        toast.success(response.data.msg);
+      }
+
+    } catch (error) {
+      toast.error(error.response.data.msg);
+    }
+  }
+
     useEffect(() => {
         if (localStorage.getItem('email')) {
             setAdminToken(localStorage.getItem('email'));
@@ -79,7 +123,12 @@ const AdminContextProvider = (props) => {
         logout,
         getAllDoctors,
         allDoctors,
-        onChangeAvailability
+        onChangeAvailability,
+        getAllAppointment,
+        appointments,
+        getDashData,
+        dashData,
+        onClickCancelAppointment
     }
 
     return (

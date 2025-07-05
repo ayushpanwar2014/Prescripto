@@ -1,6 +1,8 @@
 import DoctorModel from "../models/doctor-model.js";
 import { v2 as cloudinary } from 'cloudinary'
 import jwt from 'jsonwebtoken'
+import AppointmentModel from "../models/appointment-model.js";
+import UserModel from "../models/user-model.js";
 
 //add doctors
 export const addDoctors = async (req, res, next) => {
@@ -84,7 +86,7 @@ export const loginAdmin = async (req, res, next) => {
 }
 
 //logout doctors
-export const logoutAdmin = (req, res) => {
+export const logoutAdmin = async (req, res, next) => {
 
     try {
 
@@ -105,3 +107,85 @@ export const logoutAdmin = (req, res) => {
     }
 
 };
+
+//logout doctors
+export const display_appointments = async (req, res, next) => {
+
+    try {
+
+        const appointments = await AppointmentModel.find({});
+
+        res.status(200).json({ success: true, appointments });
+    } catch (err) {
+
+        const error = {
+            status: 401,
+            message: 'Something is Wrong!'
+        };
+        next(error);
+
+    }
+};
+
+//cancel appointment of the user 
+export const cancelAppointment = async (req, res, next) => {
+
+    try {
+        const { appointmentID } = req.body;
+
+        const appointmentData = await AppointmentModel.findById({ _id: appointmentID });
+
+        await AppointmentModel.findByIdAndUpdate(appointmentData, { cancelled: true });
+
+        //releasing doctor slot
+        const { docID, slotDate, slotTime } = appointmentData;
+
+        const doctorData = await DoctorModel.findById({ _id: docID });
+
+        let slots_booked = doctorData.slots_booked;
+
+        //filtering for removing that time of that date which is not equal to that time rest of slots will save on that date and time but not that time which we are cancelling.
+        slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime);
+
+        //now saving the data 
+        await DoctorModel.findByIdAndUpdate(docID, { slots_booked: slots_booked });
+
+        // Respond with success message
+        res.status(200).json({ success: true, msg: 'Appointment Cancelled!' });
+
+    } catch (err) {
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+}
+
+//admin dashboard
+export const adminDashboar = async (req, res, next) => {
+
+    try {
+
+        const doctors = await DoctorModel.find({});
+        const users = await UserModel.find({});
+        const appointments = await AppointmentModel.find({});
+
+        const dashData = {
+            doctors: doctors.length,
+            appointments: appointments.length,
+            patients: users.length,
+            latestAppointments: appointments.reverse().slice(0,5) 
+        }
+
+        res.status(200).json({success: true, dashData})
+
+    } catch (err) {
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+
+}

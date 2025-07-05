@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const AppContextProvider = (props) => {
 
-    const currencySymbol = '$';
+    const currencySymbol = '₹';
     const backendURL = import.meta.env.VITE_BACKEND_URL;
     const [doctors, setDoctors] = useState([]);
     const navigate = useNavigate()
