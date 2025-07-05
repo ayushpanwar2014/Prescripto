@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const SessionSchema = mongoose.Schema({
 
     userID: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Optional, but good for populate()
         required: true
     },
     valid: {

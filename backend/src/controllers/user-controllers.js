@@ -3,6 +3,8 @@ import DoctorModel from "../models/doctor-model.js";
 import SessionModel from "../models/session-model.js";
 import UserModel from "../models/user-model.js";
 import { v2 as cloudinary } from 'cloudinary';
+import razorpay from 'razorpay';
+import crypto from 'crypto';
 
 export const isProduction = process.env.NODE_ENV === 'production';
 
@@ -95,7 +97,7 @@ export const authUser = async (req, res, next) => {
         //userId and current sessionID
         const { userID, _id } = req.user;
 
-        const response = await UserModel.findById({ _id: userID }).select('-password').select('-_id');
+        const response = await UserModel.findById({ _id: userID }).select('-password')
 
         //creating new accessToken if there is refreshtoken
         if (!req.cookies.accessToken && req.cookies.refreshToken) {
@@ -308,8 +310,8 @@ export const displayAllAppointment = async (req, res, next) => {
 
     try {
 
-        const {userID} = req.user;
-        const appointments = await AppointmentModel.find({userID: userID});
+        const { userID } = req.user;
+        const appointments = await AppointmentModel.find({ userID: userID });
 
         // Respond with success message
         res.status(200).json({ success: true, appointments: appointments });
@@ -322,3 +324,135 @@ export const displayAllAppointment = async (req, res, next) => {
         next(error);
     }
 }
+
+//cancel appointment of the user 
+export const cancelAppointment = async (req, res, next) => {
+
+    try {
+        const { userID } = req.user;
+        const { appointmentID } = req.body;
+
+        const appointmentData = await AppointmentModel.findById({ _id: appointmentID });
+
+        //verify appointment user
+        if (!appointmentData.userID.equals(userID)) {
+            return res.status(403).json({ success: false, msg: "Unauthorized access to this appointment." });
+        }
+
+        await AppointmentModel.findByIdAndUpdate(appointmentData, { cancelled: true });
+
+        //releasing doctor slot
+        const { docID, slotDate, slotTime } = appointmentData;
+
+        const doctorData = await DoctorModel.findById({ _id: docID });
+
+        let slots_booked = doctorData.slots_booked;
+
+        //filtering for removing that time of that date which is not equal to that time rest of slots will save on that date and time but not that time which we are cancelling.
+        slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime);
+
+        //now saving the data 
+        await DoctorModel.findByIdAndUpdate(docID, { slots_booked: slots_booked });
+
+        // Respond with success message
+        res.status(200).json({ success: true, msg: 'Appointment Cancelled!' });
+
+    } catch (err) {
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+}
+
+//razorpay
+
+const razorpayInstance = new razorpay({
+    key_id: process.env.RAZORPAY_KEYID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+});
+
+export const paymentRazorpay = async (req, res, next) => {
+    try {
+
+        const { appointmentID } = req.body;
+        const appointmentData = await AppointmentModel.findById(appointmentID);
+
+        if (!appointmentData || appointmentData.cancelled) {
+            return res.status(403).json({ success: false, msg: "Appointment Cancelled or not found!" });
+        }
+
+        // creating option for razorpay payment
+        const options = {
+            amount: appointmentData.amount * 100,
+            currency: process.env.CURRENCY,
+            receipt: appointmentID
+        }
+
+        //creating of an order
+        const order = await razorpayInstance.orders.create(options);
+
+        res.status(200).json({ success: true, order })
+
+
+    } catch (err) {
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+}
+
+// ✅ Verify Razorpay payment signature and update payment status
+export const verifyRazorPayment = async (req, res, next) => {
+    try {
+        // 🧾 Extract values sent by Razorpay after successful payment
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+        // 🧠 Create a string to verify the signature
+        // Format: order_id|payment_id (as per Razorpay docs)
+        const body = razorpay_order_id + "|" + razorpay_payment_id;
+
+        // 🔐 Generate expected signature using your Razorpay secret key
+        const expectedSignature = crypto
+            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET) // Use HMAC SHA256
+            .update(body)                                           // Input string
+            .digest('hex');                                         // Output signature
+
+        // ❌ If generated signature doesn't match Razorpay's signature, reject
+        if (expectedSignature !== razorpay_signature) {
+            return res.status(400).json({ success: false, msg: "Invalid payment signature!" });
+        }
+
+        // ✅ Fetch the order from Razorpay server (optional, for extra validation)
+        const order = await razorpayInstance.orders.fetch(razorpay_order_id);
+
+        // 📌 Get the original appointmentID from the `receipt` field of the order
+        const appointmentID = order.receipt;
+
+        // 💾 Mark the corresponding appointment as paid in your database
+        await AppointmentModel.findByIdAndUpdate(appointmentID, {
+            payment: true, paymentDetails: {
+                razorpay_order_id,
+                razorpay_payment_id,
+                razorpay_signature,
+                status: order.status,
+            }
+        });
+
+        // ✅ Respond with success
+        return res.status(200).json({ success: true, msg: "Payment Successful!" });
+
+    } catch (err) {
+        // ⚠️ If any error occurs (network, DB, etc.)
+        const error = {
+            status: 500,
+            message: "Payment verification failed",
+        };
+        next(error);
+    }
+};
+
+

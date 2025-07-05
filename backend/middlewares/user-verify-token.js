@@ -11,7 +11,7 @@ const decodeToken = (token) => {
 export const verifyToken = async (req, res, next) => {
 
     const accessToken = req.cookies.accessToken;
-    const refreshToken = req.cookies.refreshToken;    
+    const refreshToken = req.cookies.refreshToken;  
     
     req.user = null;
     
