@@ -34,7 +34,6 @@ const AdminContextProvider = (props) => {
 
             if (response.data.success) {
                 setAllDoctors(response.data.allDoctors);
-
             }
 
         } catch (error) {
@@ -58,7 +57,7 @@ const AdminContextProvider = (props) => {
     }
 
     //logout
-    const logout = useCallback(async () => {
+    const adminLogout = useCallback(async () => {
 
         try {
             const response = await axios.post(`${backendURL}/api/admin/admin-logout`, {}, { withCredentials: true });
@@ -66,7 +65,7 @@ const AdminContextProvider = (props) => {
             if (response.data.success) {
                 navigate('/');
                 setAdminToken('');
-                localStorage.removeItem('email');
+                localStorage.removeItem('emailAdmin');
                 toast.success(response.data.msg);
             }
 
@@ -107,12 +106,12 @@ const AdminContextProvider = (props) => {
   }
 
     useEffect(() => {
-        if (localStorage.getItem('email')) {
-            setAdminToken(localStorage.getItem('email'));
+        if (localStorage.getItem('emailAdmin')) {
+            setAdminToken(localStorage.getItem('emailAdmin'));
         }
-        else if (!localStorage.getItem('email')) {
+        else if (!localStorage.getItem('emailAdmin')) {
             setAdminToken('')
-            localStorage.removeItem('email');
+            localStorage.removeItem('emailAdmin');
         }
     }, [])
 
@@ -120,7 +119,7 @@ const AdminContextProvider = (props) => {
         adminToken,
         setAdminToken,
         backendURL,
-        logout,
+        adminLogout,
         getAllDoctors,
         allDoctors,
         onChangeAvailability,

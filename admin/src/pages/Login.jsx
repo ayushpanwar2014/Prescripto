@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react'
 import axios from 'axios'
-import { AdminContext } from '../context/exportAllContext';
+import { AdminContext, DoctorContext } from '../context/exportAllContext';
 import { toast } from 'react-toastify';
 
 export default function Login() {
 
   const [state, setState] = useState('Admin');
   const { setAdminToken, backendURL } = useContext(AdminContext);
+  const {setDocToken} = useContext(DoctorContext);
 
   const [loginData, setLoginData] = useState({
     email: '',
@@ -19,19 +20,26 @@ export default function Login() {
     try {
 
       if (state === 'Admin') {
-        const response = await axios.post(backendURL + '/api/admin/admin-login', loginData , { withCredentials: true });
+        const response = await axios.post(backendURL + '/api/admin/admin-login', loginData, { withCredentials: true });
 
         if (response.data.success) {
           setAdminToken(response.data.email)
-          
-          localStorage.setItem('email', response.data.email);
+          localStorage.setItem('emailAdmin', response.data.email);
           toast.success(response.data.msg)
         }
+      }
+      else if (state === 'Doctor') {
+        const response = await axios.post(backendURL + '/api/doctor/doctor-login', loginData, { withCredentials: true });
 
+        if (response.data.success) {
+          setDocToken(response.data.email);
+          localStorage.setItem('emailDoc', response.data.email);
+          toast.success(response.data.msg);
+        }
       }
 
     } catch (error) {
-      setAdminToken("");
+      setDocToken("");
       localStorage.removeItem('email');
       toast.error(error.response.data.msg)
     }
@@ -50,7 +58,7 @@ export default function Login() {
           <p>Password</p>
           <input value={loginData.password} name='password' onChange={(e) => setLoginData({ ...loginData, [e.target.name]: e.target.value })} className='border border-[#DADADA] rounded w-full p-2 mt-1 focus:outline-[#5E5E5E] focus:ring-0' type="password" autoComplete="password" required />
         </div>
-        <button className='bg-[#5f6FFF] cursor-pointer text-white w-full py-2 rounded-md text-base'>Login</button>
+        <button type='submit' className='bg-[#5f6FFF] cursor-pointer text-white w-full py-2 rounded-md text-base'>Login</button>
         {
           state === 'Admin'
             ? <p>Doctor Login <span className='cursor-pointer text-[#5f6FFF] font-bold underline' onClick={() => setState('Doctor')}>Click here</span></p>

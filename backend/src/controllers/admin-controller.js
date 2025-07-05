@@ -105,7 +105,6 @@ export const logoutAdmin = async (req, res, next) => {
         next(error);
 
     }
-
 };
 
 //logout doctors
