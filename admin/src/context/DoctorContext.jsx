@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { DoctorContext } from "./exportAllContext";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 
@@ -10,11 +10,13 @@ const DoctorContextProvider = (props) => {
 
     const backendURL = import.meta.env.VITE_BACKEND_URL;
     const [docToken, setDocToken] = useState("");
+    const [appointments, setAppointments] = useState([]);
+    const [dashData, setDashData] = useState([]);
     const navigate = useNavigate()
 
     //logout
     const docLogout = useCallback(async () => {
-        
+
         try {
             const response = await axios.post(`${backendURL}/api/doctor/doctor-logout`, {}, { withCredentials: true });
 
@@ -31,6 +33,59 @@ const DoctorContextProvider = (props) => {
 
     }, [navigate, backendURL])
 
+    const getDoctorAppointment = useCallback(async () => {
+        try {
+            const response = await axios.get(backendURL + '/api/doctor/doctor-appointment', { withCredentials: true });
+
+            if (response.data.success) {
+                setAppointments(response.data.appointment.reverse());
+            }
+        } catch (error) {
+            toast.error(error.response.data.msg);
+        }
+    }, [backendURL])
+
+    //cancel appointment
+    const cancelAppointment = async (appointmentID) => {
+        try {
+            const response = await axios.post(backendURL + '/api/doctor/doctor-appointment-cancel', { appointmentID }, { withCredentials: true });
+            if (response.data.success) {
+                toast.success(response.data.msg)
+                getDoctorAppointment();
+                getDashboardData();
+            }
+
+        } catch (error) {
+            toast.error(error.response.data.msg);
+        }
+    }
+
+    //complete appointment
+    const completeAppointment = async (appointmentID) => {
+        try {
+            const response = await axios.post(backendURL + '/api/doctor/doctor-appointment-complete', { appointmentID }, { withCredentials: true });
+            if (response.data.success) {
+                toast.success(response.data.msg)
+                getDoctorAppointment();
+            }
+
+        } catch (error) {
+            toast.error(error.response.data.msg);
+        }
+    }
+
+    //dashboard Data 
+    const getDashboardData = useCallback(async () => {
+        try {
+            const response = await axios.get(backendURL + '/api/doctor/doctor-dashboard', { withCredentials: true });
+            if (response.data.success) {
+                setDashData(response.data.dashData);
+            }
+
+        } catch (error) {
+            toast.error(error.response.data.msg);
+        }
+    }, [backendURL])
 
     useEffect(() => {
         if (localStorage.getItem('emailDoc')) {
@@ -46,7 +101,13 @@ const DoctorContextProvider = (props) => {
         backendURL,
         docToken,
         setDocToken,
-        docLogout
+        docLogout,
+        getDoctorAppointment,
+        appointments,
+        cancelAppointment,
+        completeAppointment,
+        getDashboardData,
+        dashData
     }
 
     return (

@@ -19,7 +19,7 @@ export default function AllAppointment() {
       <p className="md-3 text-lg font-medium">All Appointments</p>
 
       <div className="bg-white border border-zinc-300 rounded text-sm max-h-[80vh] min-h-[60vh] overflow-y-scroll">
-        <div className="hidden sm:grid grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] grid-flow-col py-3 px-6 border-b">
+        <div className="hidden sm:grid grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] grid-flow-col py-3 px-6 border-zinc-300 border-b">
           <p>#</p>
           <p>Patient</p>
           <p>Age</p>

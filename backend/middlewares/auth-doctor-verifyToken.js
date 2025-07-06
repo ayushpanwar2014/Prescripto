@@ -3,8 +3,6 @@ import jwt from 'jsonwebtoken'
 export const authDoctor_VerifyToken = async (req,res, next) => {
 
     const docToken = req.cookies.docToken;
-
-    console.log(docToken);
     
     try {
         if(!docToken){
@@ -15,6 +13,8 @@ export const authDoctor_VerifyToken = async (req,res, next) => {
         if(!decodeToken){
             return  res.clearCookie('docToken').status(400).json({ success: false, msg: "UnAuthorized Access!" });
         }
+        
+        req.user = decodeToken;
         next();
 
     } catch (err) {

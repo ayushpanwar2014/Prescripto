@@ -8,19 +8,25 @@ import axios from 'axios';
 
 const Appointment = () => {
 
+  // Get docID from URL and context values
   const { docID } = useParams();
   const { doctors, currencySymbol, backendURL, user, getAllDoctors } = useContext(AppContext);
 
+  // Days label for slot selection UI
   const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+
+  // States for slots, selected day index, and selected time
   const [docSlots, setDocSlots] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState('');
 
   const navigate = useNavigate();
 
+  // Find doctor info based on docID
   const docInfo = doctors.find((doc) => doc._id === docID);
 
 
+  // Function to generate available 30-min time slots for 7 days
   const getAvailableSlots = useCallback(async () => {
     if (!docInfo || !docInfo.slots_booked) return;
 
@@ -31,10 +37,12 @@ const Appointment = () => {
       let currentDate = new Date();
       currentDate.setDate(today.getDate() + i);
 
+      // Set end time of slots (9 PM)
       let endTime = new Date();
       endTime.setDate(today.getDate() + i);
       endTime.setHours(21, 0, 0, 0);
 
+      // For current day, set time at least 1 hour ahead of now or start at 10:00
       if (today.getDate() === currentDate.getDate()) {
         currentDate.setHours(currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10);
         currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
@@ -45,20 +53,24 @@ const Appointment = () => {
 
       let timeSlots = [];
 
+      // Create 30-min slots until 9 PM
       while (currentDate < endTime) {
         const formattedTime = currentDate.toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit',
         });
 
+        // Format date to match with slots_booked format
         const day = currentDate.getDate();
         const month = currentDate.getMonth() + 1;
         const year = currentDate.getFullYear();
         const slotDate = `${day}_${month}_${year}`;
 
+        // Check if the current slot is already booked
         const isSlotAvailable =
           !docInfo.slots_booked[slotDate]?.includes(formattedTime);
 
+        // If not booked, add to available slots
         if (isSlotAvailable) {
           timeSlots.push({
             datetime: new Date(currentDate),
@@ -69,11 +81,13 @@ const Appointment = () => {
         currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
 
+      // Add day-wise available slots to state
       setDocSlots((prev) => [...prev, timeSlots]);
     }
   }, [docInfo]);
 
 
+  // Book appointment with selected doctor, date, and time
   const booked_Appointment = async () => {
     if (!user) {
       toast.warn('Please Login to book appointment!');
@@ -85,7 +99,6 @@ const Appointment = () => {
     }
 
     try {
-
       const date = docSlots[slotIndex][0].datetime;
 
       let day = date.getDate();
@@ -93,8 +106,10 @@ const Appointment = () => {
       let year = date.getFullYear();
       const slotDate = day + '_' + month + '_' + year;
 
+      // Send appointment data to backend
       const response = await axios.post(backendURL + '/api/user/book-appointment', { docID, slotDate, slotTime }, { withCredentials: true });
 
+      // On success, refresh doctors data and redirect
       if (response.data.success) {
         toast.success(response.data.msg)
         getAllDoctors();
@@ -105,7 +120,7 @@ const Appointment = () => {
     }
   }
 
-
+  // When doctor info is loaded, fetch slots
   useEffect(() => {
     if (docInfo) {
       getAvailableSlots();
@@ -113,16 +128,17 @@ const Appointment = () => {
   }, [getAvailableSlots, docInfo]);
 
 
+  // UI rendering only if doctor info is available
   return docInfo && (
     <div className='mt-5'>
-      {/* Doctors Details  */}
+      {/* Doctor details card */}
       <div className='flex flex-col sm:flex-row gap-4'>
         <div>
           <img className='bg-[#5f6FFF] w-full sm:max-w-72 rounded-lg' src={docInfo.image} alt="" />
         </div>
 
         <div className='flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0'>
-          {/* name, degree, experience  */}
+          {/* Name, degree, and experience */}
           <p className='flex items-ceter gap-2 text-2xl font-medium text-gray-900'>
             {docInfo.name}
             <img className='w-5' src={assets.verified_icon} alt="" />
@@ -132,7 +148,7 @@ const Appointment = () => {
             <button className='py-0.5 px-2 border text-xs rounded-full'>{docInfo.experience}</button>
           </div>
 
-          {/* doc about  */}
+          {/* About doctor section */}
           <div>
             <p className='flex items-center gap-1 text-sm font-medium text-gray-900 mt-3'>
               About <img src={assets.info_icon} alt="" />
@@ -140,16 +156,18 @@ const Appointment = () => {
             <p className='text-sm text-gray-500 max-w-[700px] mt-1'>{docInfo.about}</p>
           </div>
 
+          {/* Fees info */}
           <p className='text-gray-500 font-medium mt-4'>
             Appointment fee: <span className='text-gray-600'>{currencySymbol}{docInfo.fees}</span>
           </p>
         </div>
       </div>
 
-      {/* Booking Slots  */}
-
+      {/* Slot selection */}
       <div className=' sm:ml-72  sm:pl-4 mt-4 font-medium text-gray-700'>
         <p className='text-center sm:text-left'>Booking slots</p>
+
+        {/* Day selection tabs */}
         <div className='flex gap-3 items-center w-full overflow-x-scroll mt-4'>
           {
             docSlots.length && docSlots.map((item, index) => (
@@ -160,6 +178,8 @@ const Appointment = () => {
             ))
           }
         </div>
+
+        {/* Time slots for selected day */}
         <div className='flex items-center gap-3 w-full overflow-x-scroll mt-4'>
           {
             docSlots.length && docSlots[slotIndex].map((item, index) => (
@@ -169,11 +189,12 @@ const Appointment = () => {
             ))
           }
         </div>
+
+        {/* Booking button */}
         <button onClick={booked_Appointment} className='bg-[#5f6FFF] text-white text-sm font-light cursor-pointer px-14 py-3 rounded-full my-6 mx-auto sm:mx-0 block'>Book an appointment</button>
       </div>
 
-      {/* Related Doctors  */}
-
+      {/* Suggested doctors */}
       <RelatedDoctors docId={docID} speciality={docInfo.speciality} />
     </div>
   )
