@@ -22,7 +22,7 @@ export const securityMiddleware = (app) => {
     )
 
     //frontend and admin
-    const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+    const allowedOrigins = [process.env.FRONTEND_URL, process.env.ADMIN_URL];
 
     // 2. CORS configuration for React app on 5173
     app.use(
@@ -43,14 +43,14 @@ export const securityMiddleware = (app) => {
     // 3. Prevent HTTP Parameter Pollution attacks
     app.use(hpp());
 
-    // const limiter = ratelimit({
-    //     windowMs: 15 * 60 * 1000, // 15 minutes
-    //     max: 100, //max 100 requests per IP per windowMs
-    //     standardHeaders: true,
-    //     legacyHeaders: false,
-    //     message:  "Too many requests from this IP, please try again later.",
-    // });
+    const limiter = ratelimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 100, //max 100 requests per IP per windowMs
+        standardHeaders: true,
+        legacyHeaders: false,
+        message:  "Too many requests from this IP, please try again later.",
+    });
 
-    // app.use(limiter);
+    app.use(limiter);
 
 };
