@@ -8,7 +8,8 @@ import { connectCloudinary } from './config/cloudinary.js';
 import Admin_Router from './src/routes/admin-routes.js';
 import Doctor_Router from './src/routes/doctor-routes.js';
 import User_Router from './src/routes/user-routes.js';
-import 'dotenv/config'
+import dotenv from 'dotenv';
+dotenv.config();
 
 // app config
 const app = express();
