@@ -12,7 +12,21 @@ const DoctorContextProvider = (props) => {
     const [docToken, setDocToken] = useState("");
     const [appointments, setAppointments] = useState([]);
     const [dashData, setDashData] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [profile, setProfile] = useState(false);
+
+    //prodile data of doc
+    const getDocProfileData = useCallback(async () => {
+        try {
+            const response = await axios.get(backendURL + '/api/doctor/doctor-profile', { withCredentials: true });
+            if (response.data.success) {
+                setProfile(response.data.profileDoc);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }, [backendURL])
 
     //logout
     const docLogout = useCallback(async () => {
@@ -28,7 +42,11 @@ const DoctorContextProvider = (props) => {
             }
 
         } catch (error) {
-            toast.error(error.response.data.msg);
+            navigate('/');
+            setDocToken('');
+            localStorage.removeItem('emailDoc');
+            console.log(error);
+
         }
 
     }, [navigate, backendURL])
@@ -42,8 +60,11 @@ const DoctorContextProvider = (props) => {
             }
         } catch (error) {
             toast.error(error.response.data.msg);
+            if (!error.response.data.success) {
+                docLogout();
+            }
         }
-    }, [backendURL])
+    }, [backendURL, docLogout])
 
     //cancel appointment
     const cancelAppointment = async (appointmentID) => {
@@ -84,8 +105,11 @@ const DoctorContextProvider = (props) => {
 
         } catch (error) {
             toast.error(error.response.data.msg);
+            if (!error.response.data.success) {
+                docLogout();
+            }
         }
-    }, [backendURL])
+    }, [backendURL, docLogout])
 
     useEffect(() => {
         if (localStorage.getItem('emailDoc')) {
@@ -107,7 +131,10 @@ const DoctorContextProvider = (props) => {
         cancelAppointment,
         completeAppointment,
         getDashboardData,
-        dashData
+        dashData,
+        profile,
+        getDocProfileData,
+        setProfile
     }
 
     return (

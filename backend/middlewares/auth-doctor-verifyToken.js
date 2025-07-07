@@ -11,6 +11,7 @@ export const authDoctor_VerifyToken = async (req,res, next) => {
         const decodeToken = jwt.verify(docToken,process.env.JWT_SECRET);
 
         if(!decodeToken){
+            
             return  res.clearCookie('docToken').status(400).json({ success: false, msg: "UnAuthorized Access!" });
         }
         

@@ -58,10 +58,11 @@ export default function Dashboard() {
                 <img className="rounded-full w-10" src={item?.docData?.image} alt="" />
                 <div className="flex-1 text-sm">
                   <p className="text-gray-800 font-medium">{item.docData.name}</p>
-                  <p className="text-gray-600">{slotDateFormat(item?.slotDate)}</p>
+                  <p className="text-gray-600">{slotDateFormat(item?.slotDate)} | {item?.slotTime}</p>
                 </div>
-                {item?.cancelled ? <p className="text-red-600 text-xs font-medium">Cancelled</p> : <img onClick={() => onClickCancelAppointment(item?._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />}
-
+{item?.cancelled && !item?.isCompleted && <p className="text-red-600 text-xs font-medium">Cancelled</p>}
+              {!item?.cancelled && !item?.isCompleted && <img onClick={() => onClickCancelAppointment(item?._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />}
+              {!item?.cancelled && item?.isCompleted && <p className="text-green-600 text-xs font-medium">Completed</p>}
               </div>
             ))
           }

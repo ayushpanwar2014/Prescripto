@@ -41,7 +41,9 @@ export default function AllAppointment() {
                 <img className="w-8 rounded-full bg-gray-200" src={item?.docData?.image} alt="" /> <p>{item?.docData?.name}</p>
               </div>
               <p>{currencySymbol}{item?.amount}</p>
-              {item?.cancelled ? <p className="text-red-600 text-xs font-medium">Cancelled</p> : <img onClick={() => onClickCancelAppointment(item?._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />}
+              {item?.cancelled && !item?.isCompleted && <p className="text-red-600 text-xs font-medium">Cancelled</p>}
+              {!item?.cancelled && !item?.isCompleted && <img onClick={() => onClickCancelAppointment(item?._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />}
+              {!item?.cancelled && item?.isCompleted && <p className="text-green-600 text-xs font-medium">Completed</p>}
 
             </div>
           ))

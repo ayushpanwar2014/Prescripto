@@ -199,7 +199,7 @@ export const doctorDashboard = async (req, res, next) => {
         let patients = [];
 
         appointments.map((item) => {
-            if(!patients.includes(item.userID)){
+            if (!patients.includes(item.userID)) {
                 patients.push(item.userID);
             }
         })
@@ -208,10 +208,48 @@ export const doctorDashboard = async (req, res, next) => {
             earnings: earnings,
             appointments: appointments.length,
             patients: patients.length,
-            latestAppointments: appointments.reverse().slice(0,5)
+            latestAppointments: appointments.reverse().slice(0, 5)
         }
 
-        res.status(200).json({success: true, dashData: dashData});
+        res.status(200).json({ success: true, dashData: dashData });
+
+    } catch (err) {
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+}
+
+//profile
+export const docProfile = async (req, res, next) => {
+    try {
+
+        const { id } = req.user;
+        const profileDoc = await DoctorModel.findById(id).select('-password').select('-_id');
+
+        res.status(200).json({ success: true, profileDoc: profileDoc });
+
+    } catch (err) {
+        const error = {
+            status: 500,
+            message: 'Something went wrong. Please try again.'
+        };
+        next(error);
+    }
+}
+
+//update doc Profile
+export const updateDocProfile = async (req, res, next) => {
+    try {
+
+        const { fees, address, available } = req.body;
+        const { id } = req.user;
+
+        await DoctorModel.findByIdAndUpdate(id, { address: address, fees: fees, available: available });
+        res.status(200).json({ success: true, msg: 'Updated Profile!' });
+
 
     } catch (err) {
         const error = {

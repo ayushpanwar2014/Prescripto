@@ -81,7 +81,6 @@ const AdminContextProvider = (props) => {
         try {
             const response = await axios.get(backendURL + '/api/admin/display-appointments', { withCredentials: true });
 
-            console.log(response.data.appointments);
             if (response.data.success) {
 
                 setAppointments(response.data.appointments);

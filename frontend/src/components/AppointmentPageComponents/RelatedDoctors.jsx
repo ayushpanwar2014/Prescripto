@@ -31,8 +31,8 @@ export default function RelatedDoctors({ docId, speciality }) {
                             >
                                 <img className='bg-blue-50 hover:bg-[#5f6FFF] transition-all duration-500' src={item.image} alt="" />
                                 <div className='p-4'>
-                                    <div className='flex items-center gap-2 text-sm text-center text-green-500'>
-                                        <p className='w-2 h-2 bg-green-500 rounded-full'></p><p>Available</p>
+                                    <div className={`flex items-center gap-2 text-sm text-center ${item?.available ? 'text-green-500' : 'text-red-600'}`}>
+                                    <p className={`w-2 h-2 ${item?.available ? 'bg-green-500' : 'bg-red-600'} rounded-full`}></p><p>{item?.available ? 'Available' : 'Not Available'}</p>
                                     </div>
                                     <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
                                     <p className='text-gray-600 text-sm'>{item.speciality}</p>

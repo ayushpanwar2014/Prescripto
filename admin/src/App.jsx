@@ -1,6 +1,6 @@
 import './App.css'
 import Login from './pages/Login'
-import {Route, Routes} from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { useContext } from 'react';
 import { AdminContext, DoctorContext } from './context/exportAllContext';
 import Navbar from './components/Navbar';
@@ -16,26 +16,30 @@ import DoctorAppointment from './pages/Doctor-Pages/Doctor-Appointment';
 function App() {
 
   const { adminToken } = useContext(AdminContext);
-  const {docToken} = useContext(DoctorContext);
+  const { docToken } = useContext(DoctorContext);
 
   return adminToken || docToken ? (
     <div className='bg-[#F8F9FD]'>
       <Navbar />
 
       <div className='flex items-start'>
-        <Sidebar/>
+        <Sidebar />
         <Routes>
           {/* Admin Routes */}
-          <Route path='/' element={<></>}/>
-          <Route path='/admin-dashboard' element={<Dashboard/>}/>
-          <Route path='/all-appointment' element={<AllAppointment/>}/>
-          <Route path='/add-doctor' element={<AddDoctor/>}/>
-          <Route path='/doctor-list' element={<DoctorList/>}/>
+
+          <Route path='/' element={<></>} />
+          <Route path='/admin-dashboard' element={<Dashboard />} />
+          <Route path='/all-appointment' element={<AllAppointment />} />
+          <Route path='/add-doctor' element={<AddDoctor />} />
+          <Route path='/doctor-list' element={<DoctorList />} />
+
 
           {/* Doctor Routes */}
-          <Route path='/doctor-dashboard' element={<DoctorDashboard/>}/>
-          <Route path='/doctor-profile' element={<DoctorProfile/>}/>
-          <Route path='/doctor-appointment' element={<DoctorAppointment/>}/>
+
+          <Route path='/doctor-dashboard' element={<DoctorDashboard />} />
+          <Route path='/doctor-profile' element={<DoctorProfile />} />
+          <Route path='/doctor-appointment' element={<DoctorAppointment />} />
+
 
         </Routes>
       </div>

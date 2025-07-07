@@ -1,6 +1,6 @@
 import express from 'express';
 import { authAdmin_VerifyToken } from '../../middlewares/auth-admin-verifyToken.js';
-import { appointmentComplete, cancelDocotorAppointment, changeAvailability, doctorAppointment, doctorDashboard, getAllDoctors, loginDoc, logoutDoc } from '../controllers/doctor-controllers.js';
+import { appointmentComplete, cancelDocotorAppointment, changeAvailability, docProfile, doctorAppointment, doctorDashboard, getAllDoctors, loginDoc, logoutDoc, updateDocProfile } from '../controllers/doctor-controllers.js';
 import { authDoctor_VerifyToken } from '../../middlewares/auth-doctor-verifyToken.js';
 
 const Doctor_Router = express.Router();
@@ -13,5 +13,7 @@ Doctor_Router.get('/doctor-appointment', authDoctor_VerifyToken, doctorAppointme
 Doctor_Router.post('/doctor-appointment-cancel', authDoctor_VerifyToken, cancelDocotorAppointment);
 Doctor_Router.post('/doctor-appointment-complete', authDoctor_VerifyToken, appointmentComplete);
 Doctor_Router.get('/doctor-dashboard', authDoctor_VerifyToken, doctorDashboard);
+Doctor_Router.get('/doctor-profile', authDoctor_VerifyToken, docProfile);
+Doctor_Router.post('/doctor-update-profile', authDoctor_VerifyToken, updateDocProfile);
 
 export default Doctor_Router;
