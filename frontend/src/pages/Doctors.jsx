@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppContext } from '../context/exportAppContext';
+import { useCallback } from 'react';
 
 const Doctors = () => {
 
@@ -10,18 +11,17 @@ const Doctors = () => {
   const [showFilters, setShowFilters] = useState(false)
   const navigate = useNavigate();
 
-  const applyFilter = () => {
+  const applyFilter = useCallback(() => {
     if (speciality) {
       setFilterDoc(doctors.filter((item) => item.speciality === speciality));
-    }
-    else {
+    } else {
       setFilterDoc(doctors);
     }
-  }
+  }, [doctors, speciality]);
 
   useEffect(() => {
     applyFilter();
-  }, [doctors, speciality])
+  }, [applyFilter])
 
   return (
     <div className='mt-5'>
