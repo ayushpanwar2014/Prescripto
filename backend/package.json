@@ -7,7 +7,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node --env-file=.env --watch index.js"
+    "start": "node --env-file=.env --watch ./api/server.js"
   },
   "dependencies": {
     "argon2": "^0.43.0",
@@ -23,6 +23,7 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.1",
     "razorpay": "^2.9.6",
+    "serverless-http": "^3.2.0",
     "zod": "^3.25.67"
   }
 }
