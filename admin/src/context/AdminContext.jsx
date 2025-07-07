@@ -96,6 +96,7 @@ const AdminContextProvider = (props) => {
       const response = await axios.post(backendURL + '/api/admin/cancel-appointments', { appointmentID }, { withCredentials: true });
       if (response.data.success) {
         getDashData();
+        getAllAppointment();
         toast.success(response.data.msg);
       }
 
