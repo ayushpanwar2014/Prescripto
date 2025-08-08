@@ -39,18 +39,12 @@ const AppContextProvider = (props) => {
     const fetchUser = useCallback(async () => {
         try {
 
-            const response = await fetch(backendURL + '/api/user/getuser', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }).then((data) => data.json());
+            const response = await axios.get(backendURL + '/api/user/getuser', {withCredentials: true})
 
 
-            if (response.success) {
-                setUser(response.data);
-                localStorage.setItem('userData', JSON.stringify(response.data));
+            if (response.data.success) {
+                setUser(response.data.data);
+                localStorage.setItem('userData', JSON.stringify(response.data.data));
             }
             else if (!response.success) {
                 localStorage.removeItem('userData');

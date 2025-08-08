@@ -65,8 +65,8 @@ export const loginDoc = async (req, res, next) => {
 
         res.cookie('docToken', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // only over HTTPS in prod
-            sameSite: 'Strict', // 'Lax' is OK if frontend/backend are same-origin
+            secure: true, // only over HTTPS in prod
+            sameSite: 'none', // 'Lax' is OK if frontend/backend are same-origin
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         }).status(200).json({ success: true, msg: 'Logged In!', email: doctor.email });
 
@@ -85,8 +85,8 @@ export const logoutDoc = async (req, res, next) => {
     try {
         res.clearCookie('docToken', {
             httpOnly: true,
-            sameSite: 'Strict',
-            secure: process.env.NODE_ENV === 'production', // true in production
+            sameSite: 'none',
+            secure: true, // true in production
         }).status(200).json({ success: true, msg: 'Logged out successfully' });
 
     } catch (err) {

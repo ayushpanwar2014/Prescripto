@@ -11,8 +11,6 @@ const razorpayInstance = new razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-export const isProduction = process.env.NODE_ENV === 'production';
-
 //setting age for cookies to be expire
 export const accessTokenAge = 1000 * 60 * 15; // 15 mins
 export const refreshTokenAge = 1000 * 60 * 60 * 24 * 7; // 7 days
@@ -80,8 +78,8 @@ export const logout = async (req, res, next) => {
         res.clearCookie('accessToken')
         res.clearCookie('refreshToken', {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: 'strict',
+            secure: true,
+            sameSite: 'none',
             path: '/',
         }).status(200).json({ success: true, msg: "Logout SuccessFully!" });
 
@@ -118,16 +116,16 @@ export const authUser = async (req, res, next) => {
 
             res.cookie('accessToken', accessToken, {
                 httpOnly: true,
-                secure: isProduction,
-                sameSite: 'strict',
+                secure: true,
+                sameSite: 'none',
                 maxAge: accessTokenAge,
                 path: '/',
             });
 
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                secure: isProduction,
-                sameSite: 'strict',
+                secure: true,
+                sameSite: 'none',
                 maxAge: refreshTokenAge,
                 path: '/',
             })
@@ -162,16 +160,16 @@ const authenticateUser = async (req, res, user) => {
 
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: 'strict',
+        secure: true,
+        sameSite: 'none',
         maxAge: accessTokenAge,
         path: '/',
     });
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: 'strict',
+        secure: true,
+        sameSite: 'none',
         maxAge: refreshTokenAge,
         path: '/',
     }).status(200).json({

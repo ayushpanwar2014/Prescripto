@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import SessionModel from "../src/models/session-model.js";
 
-const isProduction = process.env.NODE_ENV === 'production';
 
 //decrypt accessToken
 const decodeToken = (token) => {
@@ -11,7 +10,7 @@ const decodeToken = (token) => {
 export const verifyToken = async (req, res, next) => {
 
     const accessToken = req.cookies.accessToken;
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.cookies.refreshToken;    
     
     req.user = null;
     
@@ -29,8 +28,8 @@ export const verifyToken = async (req, res, next) => {
         //clearing accessToken cookie too in frontend
         return res.clearCookie('accessToken', {
             httpOnly: true,
-            sameSite: 'strict',
-            secure: isProduction,
+            sameSite: 'none',
+            secure: true,
             path: '/'
         }).status(200).json({ success: true, msg: "Logout SuccessFully!" });
     }
@@ -48,8 +47,8 @@ export const verifyToken = async (req, res, next) => {
                 res.clearCookie('accessToken')
                 return res.clearCookie('refreshToken', {
                     httpOnly: true,
-                    secure: isProduction,
-                    sameSite: 'strict',
+                    secure: true,
+                    sameSite: 'none',
                     path: '/',
                 }).status(200).json({ success: true, msg: "Logout SuccessFully!" });
             }
@@ -103,8 +102,8 @@ export const verifyToken = async (req, res, next) => {
 
                 res.clearCookie('refreshToken', {
                     httpOnly: true,
-                    secure: isProduction,
-                    sameSite: 'strict',
+                    secure: true,
+                    sameSite: 'none',
                     path: '/',
                 });
                 next(error)
