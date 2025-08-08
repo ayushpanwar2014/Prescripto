@@ -2,7 +2,7 @@ import express from 'express'
 import { authUser, book_appointment, cancelAppointment, displayAllAppointment, login, logout, paymentRazorpay, register, updateUserProfile, verifyRazorPayment } from '../controllers/user-controllers.js';
 import { validate } from '../../middlewares/validator-middleware.js';
 import { user_login_schema, user_register_schema, user_update_schema } from '../zod-validators/user-auth-validator.js';
-import { verifyRefreshTokenAndLogout, verifyToken } from '../../middlewares/user-verify-Token.js';
+import { verifyRefreshTokenAndLogout, verifyToken } from '../../middlewares/user-verify-token.js';
 import upload from '../../middlewares/multer.js';
 
 const User_Router = express.Router();
