@@ -6,6 +6,11 @@ import { v2 as cloudinary } from 'cloudinary';
 import razorpay from 'razorpay';
 import crypto from 'crypto';
 
+const razorpayInstance = new razorpay({
+    key_id: 'rzp_test_unOHZAGi8HMEX0',
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
 export const isProduction = process.env.NODE_ENV === 'production';
 
 //setting age for cookies to be expire
@@ -368,10 +373,7 @@ export const cancelAppointment = async (req, res, next) => {
 
 //razorpay
 
-const razorpayInstance = new razorpay({
-    key_id: process.env.RAZORPAY_KEYID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+
 
 export const paymentRazorpay = async (req, res, next) => {
     try {
