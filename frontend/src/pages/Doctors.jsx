@@ -8,7 +8,8 @@ const Doctors = () => {
   const { speciality } = useParams();
   const { doctors } = useContext(AppContext);
   const [filterDoc, setFilterDoc] = useState([]);
-  const [showFilters, setShowFilters] = useState(false)
+  const [showFilters, setShowFilters] = useState(false);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const applyFilter = useCallback(() => {
@@ -23,9 +24,26 @@ const Doctors = () => {
     applyFilter();
   }, [applyFilter])
 
+  const filterSearch = filterDoc.filter(doc => {
+    const searchLower = search.toLowerCase();
+
+    return (
+      doc.name.toLowerCase().includes(searchLower) ||
+      String(doc.rating).includes(searchLower)
+    )
+  })
+
   return (
     <div className='mt-5'>
       <p className='text-gray-600'>Browse through the doctors specialist.</p>
+      {/* Search Input */}
+      <input
+        type="text"
+        placeholder="Search by doctor name or rating... "
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="text-sm border border-gray-300 rounded-full px-4 py-2 w-64 mt-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
         <button className={`py-1 px-3 border rounded text-sm transition-all cursor-pointer sm:hidden ${showFilters ? 'bg-[#5f6FFF] text-white' : ''}`} onClick={() => setShowFilters((prev) => !prev)}>Filters</button>
         <div className={`flex-col gap-4 text-sm text-gray-600 ${showFilters ? 'flex' : 'hidden sm:flex'}`}>
@@ -38,7 +56,7 @@ const Doctors = () => {
         </div>
         <div className='w-full grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))]  gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
           {
-            filterDoc.map((item, index) => (
+            filterSearch.map((item, index) => (
               <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
                 <img className='bg-blue-50 hover:bg-[#5f6FFF] transition-all duration-500' src={item.image} alt="" />
                 <div className='p-4'>
@@ -47,6 +65,7 @@ const Doctors = () => {
                   </div>
                   <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
                   <p className='text-gray-600 text-sm'>{item.speciality}</p>
+                  <p>rating {item?.rating} ★</p>
                 </div>
               </div>
             ))

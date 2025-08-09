@@ -11,7 +11,6 @@ import User_Router from './src/routes/user-routes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
 // app config
 const app = express();
 const PORT = process.env.PORT || 7060;

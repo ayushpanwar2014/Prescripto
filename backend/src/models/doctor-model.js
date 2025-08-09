@@ -55,7 +55,11 @@ const DoctorSchema = new mongoose.Schema({
     slots_booked: {
         type: Object,
         default: {}
-    } 
+    },
+    rating: {
+        type: Number,
+        default: 0
+    }
 
 }, { minimize: false });
 

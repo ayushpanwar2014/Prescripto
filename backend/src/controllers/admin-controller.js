@@ -7,7 +7,8 @@ import UserModel from "../models/user-model.js";
 //add doctors
 export const addDoctors = async (req, res, next) => {
 
-    const { name, email, password, speciality, degree, experience, about, available, fees, address, slots_booked } = req.body;
+    const { name, email, password, speciality, degree, experience, about, available, fees, address, slots_booked, rating } = req.body;
+    
     const imageFile = req.file;
 
     try {
@@ -34,6 +35,7 @@ export const addDoctors = async (req, res, next) => {
             fees: fees,
             address: address,
             slots_booked: slots_booked,
+            rating: rating,
             date: Date.now()
         });
 

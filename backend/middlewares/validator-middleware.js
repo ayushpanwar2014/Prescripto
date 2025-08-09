@@ -20,6 +20,10 @@ export const validate = (schema) => async (req, res, next) => {
         dataToValidate.fees = Number(dataToValidate.fees);
       }
 
+      if ('rating' in dataToValidate) {
+        dataToValidate.rating = Number(dataToValidate.rating);
+      }
+
       // Parse address object
       if ('address' in dataToValidate && typeof dataToValidate.address === 'string') {
         try {

@@ -244,10 +244,10 @@ export const docProfile = async (req, res, next) => {
 export const updateDocProfile = async (req, res, next) => {
     try {
 
-        const { fees, address, available } = req.body;
+        const { fees, address, available, rating } = req.body;
         const { id } = req.user;
 
-        await DoctorModel.findByIdAndUpdate(id, { address: address, fees: fees, available: available });
+        await DoctorModel.findByIdAndUpdate(id, { address: address, fees: fees, available: available, rating: rating });
         res.status(200).json({ success: true, msg: 'Updated Profile!' });
 
 

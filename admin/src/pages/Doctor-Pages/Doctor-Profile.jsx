@@ -12,6 +12,7 @@ export default function DoctorProfile() {
   const { currencySymbol } = useContext(AppContext);
   const [profileData, setProfileData] = useState({
     fees: '',
+    rating: '',
     address: {
       line1: '',
       line2: ''
@@ -55,7 +56,6 @@ export default function DoctorProfile() {
       getDocProfileData();
     }
   }, [docToken, getDocProfileData])
-  console.log(profile);
   
 
   return profile && (
@@ -84,6 +84,9 @@ export default function DoctorProfile() {
 
           <p className="text-gray-600 font-medium mt-4">
             Appointment fee: <span className="text-gray-800">{currencySymbol}{isEdit ? <input className="bg-gray-200 rounded max-w-20 mt-4 text-center focus:outline-[#5E5E5E] focus:ring-0" type="number" placeholder="" value={profileData.fees} onChange={handleOnChange} name="fees" /> : profile?.fees}</span>
+          </p>
+          <p className="text-gray-600 font-medium mt-4">
+            Rating: <span className="text-gray-800">{isEdit ? <input className="bg-gray-200 rounded max-w-20 mt-4 text-center focus:outline-[#5E5E5E] focus:ring-0" type="number" placeholder="" value={profileData.rating} onChange={handleOnChange} name="rating" /> : profile?.rating} ★</span>
           </p>
 
           <div className="flex gap-2 py-2">

@@ -77,6 +77,11 @@ export const doctor_signup_schema = z.object({
         .min(0, { message: "fees must be of 0 characters!" })
         .max(1024, { message: "fees must not be 1024 characters!" }),
 
+    rating: z
+        .number({ required_error: "rating is required!" })
+        .min(0, { message: "rating must be of 0 characters!" })
+        .max(1024, { message: "rating must not be 1024 characters!" }),
+
     address: addressSchema.required({
         required_error: "Address is required",
     }),

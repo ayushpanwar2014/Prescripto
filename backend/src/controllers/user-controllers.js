@@ -6,10 +6,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import razorpay from 'razorpay';
 import crypto from 'crypto';
 
-const razorpayInstance = new razorpay({
-    key_id: 'rzp_test_unOHZAGi8HMEX0',
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+
 
 //setting age for cookies to be expire
 export const accessTokenAge = 1000 * 60 * 15; // 15 mins
@@ -229,12 +226,14 @@ export const book_appointment = async (req, res, next) => {
     try {
         // Destructure authenticated user ID from request
         const { userID } = req.user;
+        
 
         // Destructure appointment details from request body
         const { docID, slotDate, slotTime } = req.body;
 
         // Fetch doctor data by ID and exclude password
         const docData = await DoctorModel.findById({ _id: docID }).select('-password');
+        
 
         // Check if doctor is currently available
         if (!docData.available) {
@@ -259,12 +258,14 @@ export const book_appointment = async (req, res, next) => {
             slots_booked[slotDate].push(slotTime);
         }
 
+        
+        
         // Fetch the user data (excluding password)
         const userData = await UserModel.findById({ _id: userID }).select('-password ');
-
+        
         // Remove internal doctor's booking data to prevent saving it in appointment
         delete docData.slots_booked;
-
+        
         // Prepare appointment object to be saved
         const appointmentData = {
             userID,              // ID of the patient booking
@@ -276,14 +277,16 @@ export const book_appointment = async (req, res, next) => {
             slotTime,            // Time of the appointment
             date: Date.now(),    // Timestamp of when the appointment was created
         }
-
+        
         // Create and save the appointment
         const newAppointment = new AppointmentModel(appointmentData);
+        
         await newAppointment.save();
-
+        
         // Update doctor's slot booking in the database
         try {
-            await DoctorModel.findByIdAndUpdate(docID, { slots_booked });
+             await DoctorModel.findByIdAndUpdate(docID, { slots_booked });
+            // console.log(res);
         } catch (updateErr) {
             // If slot update fails, delete the saved appointment for consistency
             console.error("Failed to update doctor's booked slots:", updateErr);
@@ -369,11 +372,16 @@ export const cancelAppointment = async (req, res, next) => {
     }
 }
 
+
 //razorpay
-
-
-
 export const paymentRazorpay = async (req, res, next) => {
+    
+
+    const razorpayInstance = new razorpay({
+        key_id: process.env.RAZORPAY_KEYID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+    
     try {
 
         const { appointmentID } = req.body;
@@ -389,9 +397,11 @@ export const paymentRazorpay = async (req, res, next) => {
             currency: process.env.CURRENCY,
             receipt: appointmentID
         }
+        
 
         //creating of an order
         const order = await razorpayInstance.orders.create(options);
+        
 
         res.status(200).json({ success: true, order })
 
@@ -407,6 +417,12 @@ export const paymentRazorpay = async (req, res, next) => {
 
 // ✅ Verify Razorpay payment signature and update payment status
 export const verifyRazorPayment = async (req, res, next) => {
+
+    const razorpayInstance = new razorpay({
+        key_id: process.env.RAZORPAY_KEYID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+   
     try {
         // 🧾 Extract values sent by Razorpay after successful payment
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;

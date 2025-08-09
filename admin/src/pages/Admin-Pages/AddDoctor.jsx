@@ -21,6 +21,7 @@ export default function AddDoctor() {
     about: '',
     degree: '',
     available: true,
+    rating: '',
     address: {
       line1: '',
       line2: '',
@@ -69,10 +70,12 @@ export default function AddDoctor() {
       DocData.append('education', formData.education);
       DocData.append('about', formData.about);
       DocData.append('degree', formData.degree);
+      DocData.append('rating', formData.rating);
       DocData.append('available', String(formData.available));
       DocData.append('address', JSON.stringify(formData.address));
       DocData.append('slots_booked', JSON.stringify(formData.slots_booked));
       DocData.append('image', docImg);
+      
 
       const response = await axios.post(backendURL + '/api/admin/add-doctor', DocData, {
         withCredentials: true,
@@ -95,6 +98,7 @@ export default function AddDoctor() {
           about: '',
           degree: '',
           available: true,
+          rating: '',
           address: {
             line1: '',
             line2: '',
@@ -109,6 +113,7 @@ export default function AddDoctor() {
     }
 
   }
+  
 
   return (
     <form onSubmit={onSubmitHandler} className='m-5 w-full'>
@@ -161,6 +166,11 @@ export default function AddDoctor() {
             <div className='flex-1 flex flex-col gap-1'>
               <p>Fees</p>
               <input type="number" onChange={handleInputChange} value={formData.fees} placeholder='Fees' required name='fees' autoComplete='fees' className='rounded px-3 py-2 border border-zinc-300 focus:outline-[#5E5E5E] focus:ring-0' />
+            </div>
+
+            <div className='flex-1 flex flex-col gap-1'>
+              <p>Rating</p>
+              <input type="number" onChange={handleInputChange} value={formData.rating} placeholder='Rating' required name='rating' autoComplete='rating' className='rounded px-3 py-2 border border-zinc-300 focus:outline-[#5E5E5E] focus:ring-0' />
             </div>
 
           </div>
