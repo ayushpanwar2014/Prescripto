@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(morgan('tiny'));
 
 //middleware to get ip address of the user network
-app.set('trust proxy', false);
+app.set('trust proxy', true);
 
 //api end point
 app.use('/api/admin', Admin_Router);
