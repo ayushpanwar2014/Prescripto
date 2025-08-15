@@ -87,24 +87,24 @@ export default function AddDoctor() {
 
       if (response.data.success) {
         toast.success(response.data.msg)
-        setFormData({
-          name: '',
-          email: '',
-          password: '',
-          experience: '1 year',
-          fees: '',
-          speciality: 'General physician',
-          education: '',
-          about: '',
-          degree: '',
-          available: true,
-          rating: '',
-          address: {
-            line1: '',
-            line2: '',
-          },
-          slots_booked: {}
-        })
+        // setFormData({
+        //   name: '',
+        //   email: '',
+        //   password: '',
+        //   experience: '1 year',
+        //   fees: '',
+        //   speciality: 'General physician',
+        //   education: '',
+        //   about: '',
+        //   degree: '',
+        //   available: true,
+        //   rating: '',
+        //   address: {
+        //     line1: '',
+        //     line2: '',
+        //   },
+        //   slots_booked: {}
+        // })
         setDocImg(false);
       }
 

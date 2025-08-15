@@ -38,8 +38,8 @@ export const getAllDoctors = async (req, res, next) => {
 
         if (cachedDoctors) {
             console.log('Cached all Doctors from redis');
-            // await delValue(cachedKey).then(() => {console.log('deleted')})
-            
+            // await delValue(cachedKey); console.log('Cached Doctors Deleted from redis');
+
             return res.status(200).json({ success: true, allDoctors: cachedDoctors });
         }
 
@@ -47,7 +47,7 @@ export const getAllDoctors = async (req, res, next) => {
         // const allDoctors = await DoctorModel.find({},{password: 0}); alternative equal
         let allDoctors = await DoctorModel.find({}).select('-password');
         if (!allDoctors) return res.status(401).json({ success: false, msg: "Service is Unavailable" });
-        
+
         await setValue(cachedKey, allDoctors);
         console.log('Cached Doctors from Mongodb');
 

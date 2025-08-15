@@ -25,7 +25,7 @@ export default function DoctorList() {
               <div className='p-4'>
                 <p className='text-neutral-800 text-lg font-medium'>{doc.name}</p>
                 <p className='text-zinc-600 text-sm'>{doc.speciality}</p>
-                <p className='text-zinc-600 text-sm'>Rating: {doc.rating} ★</p>
+                <p className='text-zinc-600 text-sm'>{doc.rating} ★</p>
                 <div className='mt-2 flex items-center gap-1 text-sm'>
                   <input type="checkbox" checked={doc.available} onChange={() => onChangeAvailability(doc._id)} />
                   <p>Available</p>
