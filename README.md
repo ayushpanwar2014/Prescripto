@@ -53,29 +53,38 @@ The backend requires the following environment variables in a `.env` file:
 
 
 ```bash
-PORT,
-MONGODB\_URL,
-CLOUDINARY\_NAME,
-CLOUDINARY\_API\_KEY,
-CLOUDINARY\_API\_SECRET,
-ADMIN\_EMAIL,
-ADMIN\_PASSSWORD,
-JWT\_SECRET,
-RAZORPAY\_KEYID,
-RAZORPAY\_KEY\_SECRET,
-CURRENCY,
-FRONTEND\_URL,
-ADMIN\_URL,
-REDIS\_PASSWORD,
-REDIS\_HOST,
-REDIS\_PORT,
+PORT =
+MONGODB_URL =
+CLOUDINARY_NAME =
+CLOUDINARY_API_KEY =
+CLOUDINARY_API_SECRET =
+ADMIN_EMAIL =
+ADMIN_PASSSWORD =
+JWT_SECRET =
+RAZORPAY_KEYID =
+RAZORPAY_KEY_SECRET = 
+CURRENCY =
+FRONTEND_URL = 
+ADMIN_URL = 
+REDIS_PASSWORD = 
+REDIS_HOST = 
+REDIS_PORT = 
 
 ````
+The Frontend requires the following environment variables in a `.env` file:
+
+```bash
+
+VITE_BACKEND_URL = 
+VITE_RAZORPAY_KEYID = 
+````
+
+---
 The Admin requires the following environment variables in a `.env` file:
 
 ```bash
 
-VITE_BACKEND_URL,
+VITE_BACKEND_URL = 
 ````
 
 ---
