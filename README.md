@@ -6,7 +6,7 @@ Screenshots
 
 # Prescripto – Healthcare Appointment Platform
 
-Full-Stack Developer | Mar – Jun 2025**  
+Full-Stack Developer | Mar – Jun 2025
 GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://github.com/ayushpanwar2014/Prescripto) | Remote  
 
 ---
