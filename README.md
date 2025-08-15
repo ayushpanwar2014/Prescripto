@@ -71,6 +71,12 @@ REDIS\_HOST,
 REDIS\_PORT,
 
 ````
+The Admin requires the following environment variables in a `.env` file:
+
+```bash
+
+VITE_BACKEND_URL,
+````
 
 ---
 
