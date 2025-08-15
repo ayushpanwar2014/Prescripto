@@ -1,5 +1,9 @@
-````markdown
+Perfect! Here's a **professional, clean README** for Prescripto without exposing sensitive `.env` info—just keeping variable names:
+
+```markdown
 # Prescripto – Healthcare Appointment Platform
+
+<img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/8264c658-82a9-40e2-afcf-499d3d84853a" />
 
 **Full-Stack Developer | Mar – Jun 2025**  
 GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://github.com/ayushpanwar2014/Prescripto) | Remote  
@@ -37,25 +41,27 @@ Prescripto is a MERN stack healthcare platform designed to handle over **100 rea
 ---
 
 ## Environment Variables
-Create a `.env` file in the backend root:
+The backend requires the following environment variables in a `.env` file:
 
-```env
-PORT=7060
-MONGODB_URL='your-mongodb-uri'
-CLOUDINARY_NAME=dwv7jodex
-CLOUDINARY_API_KEY=145279288223499
-CLOUDINARY_API_SECRET=lDD4yai4mx-0OMFON45HXRIpvtQ
-ADMIN_EMAIL=admin@prescripto.com
-ADMIN_PASSSWORD=qwerty123
-JWT_SECRET=secret123
-RAZORPAY_KEYID=rzp_test_unOHZAGi8HMEX0
-RAZORPAY_KEY_SECRET='ENXv9P3WURA1uh85XfHF14z5'
-CURRENCY=INR
-FRONTEND_URL=http://localhost:5173
-ADMIN_URL=http://localhost:5174
-REDIS_PASSWORD=D8h6YvMatg1F2okGH8BTWMBFrYJ8GVAy
-REDIS_HOST=redis-13046.crce199.us-west-2-2.ec2.redns.redis-cloud.com
-REDIS_PORT=13046
+```
+
+PORT
+MONGODB\_URL
+CLOUDINARY\_NAME
+CLOUDINARY\_API\_KEY
+CLOUDINARY\_API\_SECRET
+ADMIN\_EMAIL
+ADMIN\_PASSSWORD
+JWT\_SECRET
+RAZORPAY\_KEYID
+RAZORPAY\_KEY\_SECRET
+CURRENCY
+FRONTEND\_URL
+ADMIN\_URL
+REDIS\_PASSWORD
+REDIS\_HOST
+REDIS\_PORT
+
 ````
 
 ---
@@ -66,7 +72,7 @@ REDIS_PORT=13046
 
 ```bash
 git clone https://github.com/ayushpanwar2014/Prescripto.git
-```
+````
 
 2. Install backend dependencies:
 
@@ -85,7 +91,7 @@ npm start
 
 ---
 
-## NPM Dependencies (Backend)
+## Backend Dependencies
 
 * argon2
 * cloudinary
@@ -106,16 +112,13 @@ npm start
 
 ---
 
-## Screenshots
-
-<img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/4b965b18-3111-448d-95b2-349f51a5f702" />
-
-
----
-
 ## License
 
 MIT License
 
 ```
 
+I can also make a **more visually appealing GitHub-ready version** with **badges, tech icons, and a short project summary** so it looks startup-professional.  
+
+Do you want me to do that?
+```
