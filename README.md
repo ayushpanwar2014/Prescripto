@@ -1,9 +1,10 @@
-Perfect! Here's a **professional, clean README** for Prescripto without exposing sensitive `.env` info—just keeping variable names:
+
+Screenshots
+
+<img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/52ef534f-3a52-4ece-8180-1d904093fa07" />
 
 ```markdown
 # Prescripto – Healthcare Appointment Platform
-
-<img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/8264c658-82a9-40e2-afcf-499d3d84853a" />
 
 **Full-Stack Developer | Mar – Jun 2025**  
 GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://github.com/ayushpanwar2014/Prescripto) | Remote  
