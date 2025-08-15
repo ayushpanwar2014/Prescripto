@@ -15,7 +15,7 @@ GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://githu
   <h2>Tech Skills 🛠️</h2>
 
   <!-- Skillicons for supported skills -->
-  <img src="https://skillicons.dev/icons?i=c,cpp,html,css,js,react,nodejs,expressjs,mongodb,redis,git,github&perline=8" alt="Tech Stack" />
+  <img src="https://skillicons.dev/icons?i=html,css,js,react,nodejs,expressjs,mongodb,redis,git,github&perline=8" alt="Tech Stack" />
   
 ![Zod](https://img.shields.io/badge/Zod-7A5AF8?style=for-the-badge&logo=zod)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
