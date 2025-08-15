@@ -109,6 +109,7 @@ npm start
 ---
 
 ## Screenshots
+<img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/0d67ef8d-898f-4b84-969c-978c0d509a77" />
 
 
 ---
