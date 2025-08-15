@@ -1,40 +1,45 @@
-Here’s a clean, professional README for your **Prescripto** project based on the info you provided:
+Got it! Here's a **professional, polished GitHub README** for Prescripto with badges, tech icons, and a clean structure:
 
 ````markdown
-# Prescripto – Healthcare Appointment Platform
+# Prescripto 🏥
 
-**Full-Stack Developer | Mar – Jun 2025**  
-GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://github.com/ayushpanwar2014/Prescripto) | Remote  
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Prescripto-blue?logo=github)](https://github.com/ayushpanwar2014/Prescripto)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)]()
+[![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)]()
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)]()
+[![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)]()
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-DB0D8B?logo=cloudinary&logoColor=white)]()
+[![JWT](https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white)]()
 
 ---
 
 ## Overview
-Prescripto is a MERN stack healthcare platform designed to handle over **100 real-time bookings per day**. It improves appointment workflow by **50%** through role-based access for **Admin, Doctor, and Patient**. The platform integrates **Razorpay** and **COD** support for flexible payments, and employs **JWT authentication with rotating refresh tokens and HTTP-only cookies**, reducing unauthorized access by **80%**. Additionally, **Redis** caching and **Cloudinary** integration enhance performance and media handling.
+**Prescripto** is a full-stack **MERN healthcare platform** enabling **100+ real-time bookings per day**. The system improves appointment workflow by **50%** through **role-based access** (Admin, Doctor, Patient). Integrated **Razorpay** and **COD** support provide flexible payments, while **secure authentication with JWT, rotating refresh tokens, and HTTP-only cookies** reduces unauthorized access by **80%**. **Redis caching** ensures optimized performance, and **Cloudinary** handles media management.
 
 ---
 
-## Features
-- Role-based access control (Admin / Doctor / Patient)  
-- Real-time appointment bookings  
-- Razorpay & COD payment integration  
-- Secure authentication with JWT, rotating refresh tokens, HTTP-only cookies  
-- Redis caching for optimized performance  
-- Media management with Cloudinary  
-- CRUD operations for users, appointments, and doctors  
-- RESTful API endpoints for frontend consumption  
+## Key Features
+- **Role-Based Access:** Admin, Doctor, Patient dashboards  
+- **Real-Time Bookings:** Efficient appointment management  
+- **Payment Integration:** Razorpay + COD support  
+- **Secure Authentication:** JWT, rotating refresh tokens, HTTP-only cookies  
+- **Caching:** Redis for optimized performance  
+- **Media Management:** Cloudinary for images and files  
+- **API Validation:** Zod for request validation  
+- **Security:** Helmet, HPP, rate limiting  
 
 ---
 
 ## Tech Stack
-- **Frontend:** React.js, Tailwind CSS  
-- **Backend:** Node.js, Express.js  
-- **Database:** MongoDB  
-- **Caching:** Redis  
-- **Payment:** Razorpay  
-- **Media:** Cloudinary  
-- **Authentication:** JWT, HTTP-only cookies  
-- **Validation:** Zod  
-- **Security:** Helmet, HPP, Rate Limiting  
+**Frontend:** React.js, Tailwind CSS  
+**Backend:** Node.js, Express.js  
+**Database:** MongoDB  
+**Cache:** Redis  
+**Authentication:** JWT  
+**Payments:** Razorpay  
+**Media:** Cloudinary  
+**Validation:** Zod  
+**Security:** Helmet, HPP, Rate Limiting  
 
 ---
 
@@ -62,7 +67,7 @@ REDIS_PORT=13046
 
 ---
 
-## Installation
+## Installation & Setup
 
 1. Clone the repository:
 
@@ -77,17 +82,29 @@ cd backend
 npm install
 ```
 
-3. Run the backend server:
+3. Start the backend server:
 
 ```bash
 npm start
 ```
 
-4. Set up frontend in `/frontend` and `/admin` folders (React apps) and run with `npm start`.
+4. Install and start frontend apps in `/frontend` and `/admin`:
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+```bash
+cd admin
+npm install
+npm start
+```
 
 ---
 
-## NPM Dependencies (Backend)
+## Backend Dependencies
 
 * argon2
 * cloudinary
@@ -109,8 +126,8 @@ npm start
 ---
 
 ## Screenshots
-<img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/0d67ef8d-898f-4b84-969c-978c0d509a77" />
 
+<img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/4d383a52-7f4c-4c86-b64a-9ed7a10ffbab" />
 
 ---
 
@@ -118,11 +135,12 @@ npm start
 
 MIT License
 
-```
-
 ---
 
-I can also **make a compact version suitable for GitHub README front page** with badges, tech icons, and a one-paragraph project description if you want it to look really professional.  
+## Contact
 
-Do you want me to do that?
+Ayush Singh Panwar
+[GitHub](https://github.com/ayushpanwar2014) | [Portfolio](https://ayushpanwar2014.github.io/Portfolio/) | [ayush.panwar2014@gmail.com](mailto:ayush.panwar2014@gmail.com)
+
 ```
+
