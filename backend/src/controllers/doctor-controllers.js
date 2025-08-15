@@ -39,6 +39,7 @@ export const getAllDoctors = async (req, res, next) => {
         if (cachedDoctors) {
             console.log('Cached all Doctors from redis');
             // await delValue(cachedKey).then(() => {console.log('deleted')})
+            
             return res.status(200).json({ success: true, allDoctors: cachedDoctors });
         }
 

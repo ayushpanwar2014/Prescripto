@@ -47,7 +47,7 @@ process.on("SIGINT", async () => {
 export const setValue = async (key, value) => {
     try {
         const redisKey = `users:${key}`;
-        await client.set(redisKey, JSON.stringify(value), { EX: 3600 }); // 300s = 5 min
+        await client.set(redisKey, JSON.stringify(value), { EX: 3600 }); // 3600s = 1 hr
         return true;
     } catch (error) {
         console.error('Error setting value for key', key, error);
