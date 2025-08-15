@@ -1,4 +1,4 @@
-![hero4 copy](https://github.com/user-attachments/assets/10172215-ee37-4869-8a10-32c663dc9819)Here’s a clean, professional README for your **Prescripto** project based on the info you provided:
+Here’s a clean, professional README for your **Prescripto** project based on the info you provided:
 
 ````markdown
 # Prescripto – Healthcare Appointment Platform
