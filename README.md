@@ -10,7 +10,10 @@ Screenshots
 GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://github.com/ayushpanwar2014/Prescripto) | Remote  
 
 ---
+```
 
+
+```markdown
 ## Overview
 Prescripto is a MERN stack healthcare platform designed to handle over **100 real-time bookings per day**. It improves appointment workflow by **50%** through role-based access for **Admin, Doctor, and Patient**. The platform integrates **Razorpay** and **COD** support for flexible payments, and employs **JWT authentication with rotating refresh tokens and HTTP-only cookies**, reducing unauthorized access by **80%**. Additionally, **Redis** caching and **Cloudinary** integration enhance performance and media handling.
 
@@ -25,19 +28,6 @@ Prescripto is a MERN stack healthcare platform designed to handle over **100 rea
 - Media management with Cloudinary  
 - CRUD operations for users, appointments, and doctors  
 - RESTful API endpoints for frontend consumption  
-
----
-
-## Tech Stack
-- **Frontend:** React.js, Tailwind CSS  
-- **Backend:** Node.js, Express.js  
-- **Database:** MongoDB  
-- **Caching:** Redis  
-- **Payment:** Razorpay  
-- **Media:** Cloudinary  
-- **Authentication:** JWT, HTTP-only cookies  
-- **Validation:** Zod  
-- **Security:** Helmet, HPP, Rate Limiting  
 
 ---
 
