@@ -22,6 +22,7 @@ GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://githu
 ![REST APIs](https://img.shields.io/badge/REST%20APIs-6C63FF?style=for-the-badge)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-E53E3E?style=for-the-badge)
 ![Agile](https://img.shields.io/badge/Agile-F6AD55?style=for-the-badge)
+![cloudinary](https://img.shields.io/badge/Zod-7A5AF8?style=for-the-badge&logo=cloudinary)
 ![Microservices](https://img.shields.io/badge/Microservices-805AD5?style=for-the-badge)
 ![DBMS](https://img.shields.io/badge/DBMS-D69E2E?style=for-the-badge)
 ![DSA](https://img.shields.io/badge/DataStructures--Algorithms-3182CE?style=for-the-badge)
