@@ -19,7 +19,6 @@ Admin_Router.get('/dashboard', authAdmin_VerifyToken, adminDashboar);
 
 //doctors
 Admin_Router.get('/all-doctors', authAdmin_VerifyToken, getAllDoctors);
-Admin_Router.get('/all-doctors', authAdmin_VerifyToken, getAllDoctors);
 Admin_Router.post('/change-availability', authAdmin_VerifyToken, changeAvailability);
 
 

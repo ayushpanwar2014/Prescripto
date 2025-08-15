@@ -9,6 +9,7 @@ import Admin_Router from './src/routes/admin-routes.js';
 import Doctor_Router from './src/routes/doctor-routes.js';
 import User_Router from './src/routes/user-routes.js';
 import dotenv from 'dotenv';
+import initRedisClient from './config/redis.js';
 dotenv.config();
 
 // app config
@@ -35,7 +36,12 @@ app.use('/api/user', User_Router);
 //error middleware
 app.use(errorMiddlewares);
 
-dbConnected().then(() => {
+const initAPP = async () => {
+    await dbConnected();
+    await initRedisClient();
+}
+
+initAPP().then(() => {
     app.listen(PORT, () => {
         console.log(`Server is running on PORT:-${PORT}`);
     })

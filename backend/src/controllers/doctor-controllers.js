@@ -1,6 +1,9 @@
+import { delValue, getValue, setValue } from "../../config/redis.js";
 import AppointmentModel from "../models/appointment-model.js";
 import DoctorModel from "../models/doctor-model.js";
 import jwt from 'jsonwebtoken';
+
+export const cachedKey = 'allDoctors'; // redis unique Key 
 
 //availablity of the doctors
 export const changeAvailability = async (req, res, next) => {
@@ -12,6 +15,8 @@ export const changeAvailability = async (req, res, next) => {
         const findUser = await DoctorModel.findById({ _id: _id }).select('-password');
 
         await DoctorModel.findByIdAndUpdate(_id, { available: !findUser.available });
+
+        await delValue(cachedKey); console.log('Cached Doctors Deleted from redis');
 
         res.status(200).json({ success: true, msg: `${findUser.name} Availablity Changed !` });
 
@@ -29,11 +34,23 @@ export const getAllDoctors = async (req, res, next) => {
 
     try {
 
+        const cachedDoctors = await getValue(cachedKey);
+
+        if (cachedDoctors) {
+            console.log('Cached all Doctors from redis');
+            // await delValue(cachedKey).then(() => {console.log('deleted')})
+            return res.status(200).json({ success: true, allDoctors: cachedDoctors });
+        }
+
         // getting all doctors from the backend
         // const allDoctors = await DoctorModel.find({},{password: 0}); alternative equal
-        const allDoctors = await DoctorModel.find({}).select('-password');
+        let allDoctors = await DoctorModel.find({}).select('-password');
+        if (!allDoctors) return res.status(401).json({ success: false, msg: "Service is Unavailable" });
+        
+        await setValue(cachedKey, allDoctors);
+        console.log('Cached Doctors from Mongodb');
 
-        res.status(200).json({ success: true, allDoctors });
+        res.status(200).json({ success: true, allDoctors: allDoctors });
 
     } catch (err) {
 
@@ -246,8 +263,8 @@ export const updateDocProfile = async (req, res, next) => {
 
         const { fees, address, available, rating } = req.body;
         const { id } = req.user;
-
         await DoctorModel.findByIdAndUpdate(id, { address: address, fees: fees, available: available, rating: rating });
+        await delValue(cachedKey); console.log('Cached Value Deleted from redis');
         res.status(200).json({ success: true, msg: 'Updated Profile!' });
 
 

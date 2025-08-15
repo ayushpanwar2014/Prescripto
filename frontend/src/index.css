@@ -18,3 +18,9 @@
     @apply text-white bg-[#5f6FFF]
   }
 }
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

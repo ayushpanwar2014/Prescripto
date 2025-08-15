@@ -3,12 +3,14 @@ import { v2 as cloudinary } from 'cloudinary'
 import jwt from 'jsonwebtoken'
 import AppointmentModel from "../models/appointment-model.js";
 import UserModel from "../models/user-model.js";
+import { delValue } from "../../config/redis.js";
+import { cachedKey } from "./doctor-controllers.js";
 
 //add doctors
 export const addDoctors = async (req, res, next) => {
 
     const { name, email, password, speciality, degree, experience, about, available, fees, address, slots_booked, rating } = req.body;
-    
+
     const imageFile = req.file;
 
     try {
@@ -38,7 +40,7 @@ export const addDoctors = async (req, res, next) => {
             rating: rating,
             date: Date.now()
         });
-
+        await delValue(cachedKey); console.log('Cached All Doctors Deleted from redis');
         res.status(200).json({ success: true, msg: "Doctor Added Successfully!" });
 
     } catch (err) {
@@ -151,6 +153,8 @@ export const cancelAppointment = async (req, res, next) => {
         //now saving the data 
         await DoctorModel.findByIdAndUpdate(docID, { slots_booked: slots_booked });
 
+        await delValue(cachedKey); console.log('Cached Doctors Deleted from redis');
+
         // Respond with success message
         res.status(200).json({ success: true, msg: 'Appointment Cancelled!' });
 
@@ -176,10 +180,10 @@ export const adminDashboar = async (req, res, next) => {
             doctors: doctors.length,
             appointments: appointments.length,
             patients: users.length,
-            latestAppointments: appointments.reverse().slice(0,5) 
+            latestAppointments: appointments.reverse().slice(0, 5)
         }
 
-        res.status(200).json({success: true, dashData})
+        res.status(200).json({ success: true, dashData })
 
     } catch (err) {
         const error = {
