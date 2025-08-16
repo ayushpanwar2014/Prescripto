@@ -76,7 +76,7 @@ export const logout = async (req, res, next) => {
         res.clearCookie('refreshToken', {
             httpOnly: true,
             secure: true,
-            sameSite: 'none',
+            sameSite: 'None',
             path: '/',
         }).status(200).json({ success: true, msg: "Logout SuccessFully!" });
 
@@ -114,7 +114,7 @@ export const authUser = async (req, res, next) => {
             res.cookie('accessToken', accessToken, {
                 httpOnly: true,
                 secure: true,
-                sameSite: 'none',
+                sameSite: 'None',
                 maxAge: accessTokenAge,
                 path: '/',
             });
@@ -122,7 +122,7 @@ export const authUser = async (req, res, next) => {
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
                 secure: true,
-                sameSite: 'none',
+                sameSite: 'None',
                 maxAge: refreshTokenAge,
                 path: '/',
             })
@@ -158,7 +158,7 @@ const authenticateUser = async (req, res, user) => {
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
         secure: true,
-        sameSite: 'none',
+        sameSite: 'None',
         maxAge: accessTokenAge,
         path: '/',
     });
@@ -166,7 +166,7 @@ const authenticateUser = async (req, res, user) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: 'none',
+        sameSite: 'None',
         maxAge: refreshTokenAge,
         path: '/',
     }).status(200).json({

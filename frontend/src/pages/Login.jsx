@@ -48,8 +48,6 @@ const Login = () => {
           completeProgress();
         }
       }
-
-
     } catch (error) {
       toast.error(error.response.data.msg)
       completeProgress();

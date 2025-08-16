@@ -28,7 +28,7 @@ export const verifyToken = async (req, res, next) => {
         //clearing accessToken cookie too in frontend
         return res.clearCookie('accessToken', {
             httpOnly: true,
-            sameSite: 'none',
+            sameSite: 'None',
             secure: true,
             path: '/'
         }).status(200).json({ success: true, msg: "Logout SuccessFully!" });
@@ -48,7 +48,7 @@ export const verifyToken = async (req, res, next) => {
                 return res.clearCookie('refreshToken', {
                     httpOnly: true,
                     secure: true,
-                    sameSite: 'none',
+                    sameSite: 'None',
                     path: '/',
                 }).status(200).json({ success: true, msg: "Logout SuccessFully!" });
             }
@@ -103,7 +103,7 @@ export const verifyToken = async (req, res, next) => {
                 res.clearCookie('refreshToken', {
                     httpOnly: true,
                     secure: true,
-                    sameSite: 'none',
+                    sameSite: 'None',
                     path: '/',
                 });
                 next(error)
