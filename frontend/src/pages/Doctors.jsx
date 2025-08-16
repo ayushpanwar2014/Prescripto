@@ -54,24 +54,35 @@ const Doctors = () => {
           <p onClick={() => speciality === 'Neurologist' ? navigate('/doctors') : navigate('/doctors/Neurologist')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Neurologist' ? "bg-indigo-100 text-black" : ""}`} >Neurologist</p>
           <p onClick={() => speciality === 'Gastroenterologist' ? navigate('/doctors') : navigate('/doctors/Gastroenterologist')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Gastroenterologist' ? "bg-indigo-100 text-black" : ""}`} >Gastroenterologist</p>
         </div>
-        <div className='w-full grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))]  gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
-          {
-            filterSearch.map((item, index) => (
-              <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
-                <img className='bg-blue-50 hover:bg-[#5f6FFF] transition-all duration-500' src={item.image} alt="" />
-                <div className='p-4'>
-                  <div className={`flex items-center gap-2 text-sm text-center ${item?.available ? 'text-green-500' : 'text-red-600'}`}>
-                    <p className={`w-2 h-2 ${item?.available ? 'bg-green-500' : 'bg-red-600'} rounded-full`}></p><p>{item?.available ? 'Available' : 'Not Available'}</p>
+
+        {/* Show spinner if doctors not loaded */}
+        {!doctors || doctors.length === 0 ? (
+          <div className="flex justify-center items-center w-full h-64 mt-10">
+            <div className="btn-spinner2">
+              <div className="spinner"></div>
+            </div>
+          </div>
+        ) : (
+          <div className='w-full grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))]  gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
+            {
+              filterSearch.map((item, index) => (
+                <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
+                  <img className='bg-blue-50 hover:bg-[#5f6FFF] transition-all duration-500' src={item.image} alt="" />
+                  <div className='p-4'>
+                    <div className={`flex items-center gap-2 text-sm text-center ${item?.available ? 'text-green-500' : 'text-red-600'}`}>
+                      <p className={`w-2 h-2 ${item?.available ? 'bg-green-500' : 'bg-red-600'} rounded-full`}></p><p>{item?.available ? 'Available' : 'Not Available'}</p>
+                    </div>
+                    <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
+                    <p className='text-gray-600 text-sm'>{item.speciality}</p>
+                    <p>{item?.rating} ★</p>
                   </div>
-                  <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
-                  <p className='text-gray-600 text-sm'>{item.speciality}</p>
-                  <p>{item?.rating} ★</p>
                 </div>
-              </div>
-            ))
-          }
-        </div>
+              ))
+            }
+          </div>
+        )}
       </div>
+
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { Suspense, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../../context/exportAppContext'
 
@@ -16,7 +16,7 @@ export default function TopDoctors() {
             doc.name.toLowerCase().includes(searchLower) ||
             String(doc.rating).includes(searchLower)
         )
-    }).slice(0,10);
+    }).slice(0, 10);
 
     return (
         <div className='flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10'>
@@ -34,10 +34,15 @@ export default function TopDoctors() {
                 className="text-sm border border-gray-300 rounded-full px-4 py-2 w-64 mt-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
 
-            {/* Doctors Grid */}
-            <div className='w-full grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
-                {
-                    filteredDoctors.map((item, index) => (
+            {/* Show spinner if doctors not loaded */}
+            {!doctors || doctors.length === 0 ? (
+                <div className="btn-spinner mt-10">
+                    <div className="spinner"></div>
+                </div>
+            ) : (
+                // Doctors Grid
+                <div className='w-full grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
+                    {filteredDoctors.map((item, index) => (
                         <div
                             key={index}
                             onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }}
@@ -58,9 +63,9 @@ export default function TopDoctors() {
                                 <p>{item?.rating} ★</p>
                             </div>
                         </div>
-                    ))
-                }
-            </div>
+                    ))}
+                </div>
+            )}
 
             {/* Browse All Button */}
             <button
