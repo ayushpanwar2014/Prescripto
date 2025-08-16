@@ -21,30 +21,134 @@
 
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-.btn-spinner .spinner{
-    width: 100px;
-    height: 100px;
-    place-self: center;
-    border: 5px solid #bdbdbd;
-    border-top-color: #5f6FFF;
-    border-radius: 50%;
-    animation: rotate 1.5s infinite;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.btn-spinner2 .spinner{
-    width: 100px;
-    height: 100px;
-    border: 5px solid #bdbdbd;
-    border-top-color: #5f6FFF;
-    border-radius: 50%;
-    animation: rotate 1.5s infinite;
+.btn-spinner .spinner {
+  width: 100px;
+  height: 100px;
+  place-self: center;
+  border: 5px solid #bdbdbd;
+  border-top-color: #5f6FFF;
+  border-radius: 50%;
+  animation: rotate 1.5s infinite;
 }
 
-@keyframes rotate{
-    100%{
-        transform: rotate(360deg);
-    }
+.btn-spinner2 .spinner {
+  width: 100px;
+  height: 100px;
+  border: 5px solid #bdbdbd;
+  border-top-color: #5f6FFF;
+  border-radius: 50%;
+  animation: rotate 1.5s infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow:
+      0 0 16px #5f6FFF,
+      0 0 32px #5f6FFF,
+      0 0 64px #5f6FFF,
+      0 0 96px #5f6FFF;
+  }
+
+  50% {
+    box-shadow:
+      0 0 24px #7a88ff,
+      0 0 48px #7a88ff,
+      0 0 96px #7a88ff,
+      0 0 128px #7a88ff;
+  }
+
+  100% {
+    box-shadow:
+      0 0 16px #5f6FFF,
+      0 0 32px #5f6FFF,
+      0 0 64px #5f6FFF,
+      0 0 96px #5f6FFF;
+  }
+}
+
+#top-loading-bar {
+  border-radius: 8px;
+  animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+/* 🔹 Common Toast Style */
+.custom-toast {
+  padding: 10px !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+}
+
+/* ✅ Success toast (#5f6FFF blue glow) */
+.Toastify__toast--success {
+  background: #5f6FFF !important;
+  color: white !important;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(95, 111, 255, 0.6);
+}
+
+/* ⚠️ Warning toast (red glow) */
+.Toastify__toast--warning {
+  background: #ff4d4f !important;
+  color: white !important;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(255, 77, 79, 0.6);
+}
+
+/* ✨ Fade Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.4s ease-in-out forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+/* 📱 Mobile Friendly */
+@media (max-width: 768px) {
+  .custom-toast {
+    width: 90% !important;
+    margin: 0 auto !important;
+    font-size: 14px;
+    border-radius: 10px !important;
+  }
+
+  .Toastify__toast-container {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
 }

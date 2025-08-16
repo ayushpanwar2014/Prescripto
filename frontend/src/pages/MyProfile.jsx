@@ -3,12 +3,14 @@ import { AppContext } from '../context/exportAppContext'
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { assets } from '../assets/assets_frontend/assets';
+import { useProgress } from '../context/ProgressContext';
 
 const MyProfile = () => {
 
   const { backendURL, fetchUser } = useContext(AppContext);
   const user = JSON.parse(localStorage.getItem('userData'));
   const [image, setImage] = useState(false);
+  const { startProgress, completeProgress } = useProgress();
 
   const [userData, setUserData] = useState({
     name: user?.name,
@@ -37,6 +39,7 @@ const MyProfile = () => {
         console.warn("No image selected — updating other fields");
       }
 
+      startProgress();
       const userFormData = new FormData;
 
       userFormData.append('name', userData.name);
@@ -61,10 +64,12 @@ const MyProfile = () => {
         setImage(false);
         setIsEdit((prev) => !prev)
         fetchUser()
+        completeProgress();
       }
 
     } catch (error) {
       toast.error(error.response.data.msg || "Something went wrong!");
+      completeProgress()
     }
   }
 

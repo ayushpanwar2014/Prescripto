@@ -27,6 +27,7 @@ admin/.env.*.local
 frontend/dist/
 backend/dist/
 admin/dist/
+node_modules
 
 # Editor directories and files
 .vscode/*

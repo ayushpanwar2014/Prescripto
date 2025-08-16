@@ -5,12 +5,14 @@ import { assets } from '../assets/assets_frontend/assets';
 import RelatedDoctors from '../components/AppointmentPageComponents/RelatedDoctors';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useProgress } from '../context/ProgressContext';
 
 const Appointment = () => {
 
   // Get docID from URL and context values
   const { docID } = useParams();
   const { doctors, currencySymbol, backendURL, user, getAllDoctors } = useContext(AppContext);
+  const { startProgress, completeProgress } = useProgress();
 
   // Days label for slot selection UI
   const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
@@ -99,6 +101,7 @@ const Appointment = () => {
     }
 
     try {
+      startProgress();
       const date = docSlots[slotIndex][0].datetime;
 
       let day = date.getDate();
@@ -113,9 +116,11 @@ const Appointment = () => {
       if (response.data.success) {
         toast.success(response.data.msg)
         getAllDoctors();
+        completeProgress();
         navigate('/my-appointments')
       }
     } catch (error) {
+      completeProgress()
       toast.error(error.response.data.msg);
     }
   }

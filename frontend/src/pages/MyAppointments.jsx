@@ -3,11 +3,13 @@ import { AppContext } from '../context/exportAppContext'
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useProgress } from '../context/ProgressContext';
 
 const MyAppointments = () => {
 
   const { backendURL, user, getAllDoctors } = useContext(AppContext);
   const [appointment, setAppointment] = useState([]);
+  const { startProgress, completeProgress } = useProgress();
   const navigate = useNavigate();
   // Array for converting month number to name
   const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -21,30 +23,38 @@ const MyAppointments = () => {
   // 📡 Fetch user-specific appointments from backend (protected route)
   const getUserAppointment = useCallback(async () => {
     try {
+
+      startProgress();
       const response = await axios.get(backendURL + '/api/user/display-appointments', { withCredentials: true });
 
       if (response.data.success) {
         // ⬇️ Reverse to show latest appointments first
         setAppointment(response.data.appointments.reverse());
+        completeProgress();
       }
 
     } catch (error) {
+      completeProgress()
       toast.error(error.response.data.msg);
     }
-  }, [backendURL]);
+  }, [backendURL,startProgress, completeProgress]);
 
   // ❌ Cancel an appointment by ID
   const onClickCancelAppointment = async (appointmentID) => {
     try {
+
+      startProgress();
       const response = await axios.post(backendURL + '/api/user/cancel-appointment', { appointmentID }, { withCredentials: true });
 
       if (response.data.success) {
-        toast.success(response.data.msg);
         getUserAppointment();    // 🔁 Refresh list after cancel
         getAllDoctors();         // 🔄 Refresh available slots of doctors
+        completeProgress()
+        toast.success(response.data.msg);
       }
 
     } catch (error) {
+      completeProgress();
       toast.error(error.response.data.msg);
     }
   }
@@ -90,16 +100,17 @@ const MyAppointments = () => {
   //razor pay
   const razorpayment = async (appointmentID) => {
     try {
-
+      startProgress();
       const response = await axios.post(backendURL + '/api/user/payment-razorpay', { appointmentID }, { withCredentials: true });
 
       if (response.data.success) {
         initPay(response.data.order);
-
+        completeProgress();
       }
 
     } catch (error) {
       toast.error(error.response.data.msg);
+      completeProgress()
     }
   }
 

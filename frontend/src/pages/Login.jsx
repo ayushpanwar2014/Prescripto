@@ -3,10 +3,12 @@ import axios from 'axios'
 import { AppContext } from '../context/exportAppContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useProgress } from "../context/ProgressContext";
 
 const Login = () => {
 
   const [state, setState] = useState('Sign Up');
+  const { startProgress, completeProgress } = useProgress();
   const { backendURL, fetchUser } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-
+      startProgress();
       if (state === 'Log In') {
 
         const response = await axios.post(backendURL + '/api/user/login', signUp, { withCredentials: true });
@@ -33,6 +35,7 @@ const Login = () => {
           fetchUser();
           navigate('/');
           toast.success(response.data.msg)
+          completeProgress()
         }
       }
       else if (state === 'Sign Up') {
@@ -42,14 +45,14 @@ const Login = () => {
           fetchUser();
           navigate('/');
           toast.success(response.data.msg)
+          completeProgress();
         }
       }
 
 
     } catch (error) {
-
       toast.error(error.response.data.msg)
-
+      completeProgress();
     }
 
   }
