@@ -1,10 +1,7 @@
 
-Screenshots
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=0E43F7&background=3159FF00&width=435&lines=Prescripto+%E2%80%93+Healthcare+Appointment+Platform)](https://git.io/typing-svg)
 
 <img width="1360" height="909" alt="Prescripto" src="https://github.com/user-attachments/assets/52ef534f-3a52-4ece-8180-1d904093fa07" />
-
-
-# Prescripto – Healthcare Appointment Platform
 
 Full-Stack Developer | Mar – Jun 2025
 GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://github.com/ayushpanwar2014/Prescripto) | Remote  
