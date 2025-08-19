@@ -42,7 +42,7 @@ export default function TopDoctors() {
             ) : (
                 // Doctors Grid
                 <div className='w-full grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
-                    {filteredDoctors.map((item, index) => (
+                    {filteredDoctors.slice(0,8).map((item, index) => (
                         <div
                             key={index}
                             onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }}
