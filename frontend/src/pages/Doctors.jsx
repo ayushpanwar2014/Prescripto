@@ -59,6 +59,7 @@ const Doctors = () => {
         {!doctors || doctors.length === 0 ? (
           <div className="flex justify-center items-center w-full h-64 mt-10">
             <div className="btn-spinner2">
+              <p style={{ marginBottom: '40px' }}>Please wait ! while backend is Connecting from Render.</p>
               <div className="spinner"></div>
             </div>
           </div>
