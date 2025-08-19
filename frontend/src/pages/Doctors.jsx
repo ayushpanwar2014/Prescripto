@@ -56,11 +56,11 @@ const Doctors = () => {
         </div>
 
         {/* Show spinner if doctors not loaded */}
-        {!doctors || doctors.length === 0 ? (
+        {doctors || doctors.length === 0 ? (
           <div className="flex justify-center items-center w-full h-64 mt-10">
             <div className="btn-spinner2">
-              <p style={{ marginBottom: '40px' }}>Please wait ! while backend is Connecting from Render.</p>
-              <div className="spinner"></div>
+              <p style={{ marginBottom: '40px', textAlign: 'center' }}>Please wait ! <br />While backend is Connecting from Render.</p>
+              <div style={{marginLeft: '100px'}} className="spinner"></div>
             </div>
           </div>
         ) : (

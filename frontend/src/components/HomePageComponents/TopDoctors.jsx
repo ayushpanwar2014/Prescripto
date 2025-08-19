@@ -35,9 +35,9 @@ export default function TopDoctors() {
             />
 
             {/* Show spinner if doctors not loaded */}
-            {!doctors || doctors.length === 0 ? (
+            {doctors || doctors.length === 0 ? (
                 <div className="btn-spinner mt-10">
-                    <p style={{ marginBottom: '40px' }}>Please wait ! while backend is Connecting from Render.</p>
+                    <p style={{ marginBottom: '40px', textAlign: 'center' }}>Please wait ! <br />While backend is Connecting from Render.</p>
                     <div className="spinner"></div>
                 </div>
             ) : (
