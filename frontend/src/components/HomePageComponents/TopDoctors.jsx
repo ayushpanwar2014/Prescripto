@@ -35,7 +35,7 @@ export default function TopDoctors() {
             />
 
             {/* Show spinner if doctors not loaded */}
-            {doctors || doctors.length === 0 ? (
+            {!doctors || doctors.length === 0 ? (
                 <div className="flex justify-center items-center w-full h-64 mt-10">
                     <div className="btn-spinner2">
                         <p style={{ marginBottom: '40px', textAlign: 'center' }}>Please wait ! <br />While backend is Connecting from Render.</p>
