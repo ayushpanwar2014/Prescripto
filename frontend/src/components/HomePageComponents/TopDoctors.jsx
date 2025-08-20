@@ -36,9 +36,11 @@ export default function TopDoctors() {
 
             {/* Show spinner if doctors not loaded */}
             {!doctors || doctors.length === 0 ? (
-                <div style={{alignItems: 'center'}} className="btn-spinner">
-                    <p style={{ textAlign: 'center', marginTop: '40px', marginBottom: '40px' }}>Please wait ! <br />While backend is Connecting from Render.</p>
-                    <div style={{alignItems: 'center'}} className="spinner"></div>
+                <div className="flex justify-center items-center w-full h-64 mt-10">
+                    <div className="btn-spinner2">
+                        <p style={{ marginBottom: '40px', textAlign: 'center' }}>Please wait ! <br />While backend is Connecting from Render.</p>
+                        <div style={{ marginLeft: '100px' }} className="spinner"></div>
+                    </div>
                 </div>
             ) : (
                 // Doctors Grid
