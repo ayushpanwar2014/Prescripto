@@ -5,21 +5,36 @@ import ratelimit from 'express-rate-limit';
 
 export const securityMiddleware = (app) => {
 
-    // 1. Helmet for HTTP headers security
+
+    // Frontend URLs
+    const MAIN_FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+    const ADMIN_FRONTEND_URL = process.env.ADMIN_URL || "http://localhost:5174";
+    const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:3000";
+
     app.use(
         helmet({
             contentSecurityPolicy: {
                 directives: {
                     defaultSrc: ["'self'"],
-                    scriptSrc: ["'self'", "'unsafe-inline'"],
-                    connectSrc: ["'self'", "http://localhost:5173"], // React dev server
-                    imgSrc: ["'self'", "data:"],
-                    styleSrc: ["'self'", "'unsafe-inline'"],
+                    scriptSrc: [
+                        "'self'",
+                        "'unsafe-inline'",
+                        ...([MAIN_FRONTEND_URL, ADMIN_FRONTEND_URL])
+                    ],
+                    connectSrc: [
+                        "'self'",
+                        ...([MAIN_FRONTEND_URL, ADMIN_FRONTEND_URL, BACKEND_URL]),
+                    ],
+                    imgSrc: ["'self'", "data:", MAIN_FRONTEND_URL, ADMIN_FRONTEND_URL],
+                    styleSrc: ["'self'", "'unsafe-inline'", MAIN_FRONTEND_URL, ADMIN_FRONTEND_URL],
+                    fontSrc: ["'self'", MAIN_FRONTEND_URL, ADMIN_FRONTEND_URL],
+                    frameSrc: ["'self'", MAIN_FRONTEND_URL, ADMIN_FRONTEND_URL],
                 },
             },
             crossOriginResourcePolicy: { policy: "same-origin" },
         })
-    )
+    );
+
 
     //frontend and admin
     const allowedOrigins = [process.env.FRONTEND_URL, process.env.ADMIN_URL];
@@ -28,10 +43,10 @@ export const securityMiddleware = (app) => {
     app.use(
         cors({
             origin: function (origin, callback) {
-                if(!origin || allowedOrigins.includes(origin)){
+                if (!origin || allowedOrigins.includes(origin)) {
                     callback(null, true);
                 }
-                else{
+                else {
                     callback(new Error('Not allowed by CORS'));
                 }
             },
@@ -48,7 +63,7 @@ export const securityMiddleware = (app) => {
         max: 100, //max 100 requests per IP per windowMs
         standardHeaders: true,
         legacyHeaders: false,
-        message:  "Too many requests from this IP, please try again later.",
+        message: "Too many requests from this IP, please try again later.",
     });
 
     app.use(limiter);
