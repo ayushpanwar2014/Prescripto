@@ -97,7 +97,7 @@ export const authUser = async (req, res, next) => {
         //userId and current sessionID
         const { userID, _id } = req.user;
 
-        const response = await UserModel.findById({ _id: userID }).select('-password')
+        const response = await UserModel.findById({ _id: userID }).select('-password');
 
         //creating new accessToken if there is refreshtoken
         if (!req.cookies.accessToken && req.cookies.refreshToken) {
@@ -128,7 +128,19 @@ export const authUser = async (req, res, next) => {
             })
         }
 
-        res.status(200).json({ success: true, data: response });
+        const userCopyData = {
+            name: response.name,
+            email: response.email,
+            gender: response.gender,
+            image: response.image,
+            phone: response.phone,
+            updatedAt: response.updatedAt,
+            createdAt: response.createdAt,
+            address: response.address,
+            dob: response.dob
+        };
+
+        res.status(200).json({ success: true, data: userCopyData });
 
     } catch (err) {
 

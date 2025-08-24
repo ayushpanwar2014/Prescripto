@@ -58,6 +58,8 @@ const AppContextProvider = (props) => {
         } catch (err) {
             console.log(err)
             // toast.error(error.response.data.msg);
+            localStorage.removeItem('userData');
+            setUser("");
         }
     }, [backendURL]);
 
