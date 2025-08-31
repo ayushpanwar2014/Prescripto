@@ -7,8 +7,8 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "npx pm2 start server.js -i max --name Prescripto-backend --no-daemon",
-    "start:pm2": "pm2 start server.js -i max --name Prescripto-backend",
+    "start": "node server.js",
+    "start:pm2": "npx pm2 start server.js -i max --name Prescripto-backend --no-daemon",
     "dev": "node --watch server.js"
   },
   "dependencies": {
