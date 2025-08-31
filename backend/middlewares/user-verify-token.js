@@ -68,7 +68,7 @@ export const verifyToken = async (req, res, next) => {
                 req.user = verifyAccessToken;
                 return next();
             } catch (err) {
-                if (err.name === "TokenExpiredError" && refreshToken) {
+                if (err.name === "TokenExpiredError" || refreshToken) {
                     // Access token expired → use refresh
                     const session = await refreshTokens(refreshToken);
                     if (session) {
