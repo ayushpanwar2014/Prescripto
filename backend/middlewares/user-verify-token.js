@@ -169,12 +169,14 @@ const refreshTokens = async (refreshToken) => {
 export const verifyRefreshTokenAndLogout = async (req, res, next) => {
 
     const sessionID = req.user._id;
+    const sessionID2 = req.user.session;
+
 
     try {
 
-        if (sessionID) {
+        if (sessionID || sessionID2) {
 
-            const checkSessionId = await SessionModel.findById(sessionID);
+            const checkSessionId = await SessionModel.findById(sessionID || sessionID2);
 
             if (!checkSessionId) return res.status(401).json({ success: false, msg: "Unauthorized Person" });
 
