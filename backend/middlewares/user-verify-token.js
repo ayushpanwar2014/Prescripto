@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import SessionModel from "../src/models/session-model.js";
 
 
-//decrypt accessToken
+//decrypt access or refresh token
 const decodeToken = (token) => {
     return jwt.verify(token, process.env.JWT_SECRET);
 }
@@ -54,9 +54,8 @@ export const verifyToken = async (req, res, next) => {
             }
 
         } catch (error) {
-            return res.status(401).json({ success: false, message: 'Invalid refresh token' });
+            return res.status(401).json({ success: false, msg: 'Invalid refresh token' });
         }
-
     }
 
     try {

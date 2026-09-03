@@ -11,7 +11,7 @@ GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://githu
   <h2>Tech Skills 🛠️</h2>
 
   <!-- Skillicons for supported skills -->
-  <img src="https://skillicons.dev/icons?i=html,css,js,react,nodejs,expressjs,mongodb,redis,git,github&perline=5" alt="Tech Stack" />
+  <img src="https://skillicons.dev/icons?i=html,css,js,react,nodejs,expressjs,mongodb,git,github&perline=5" alt="Tech Stack" />
   
 ![Zod](https://img.shields.io/badge/Zod-7A5AF8?style=for-the-badge&logo=zod)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -28,7 +28,7 @@ GitHub Repository: [https://github.com/ayushpanwar2014/Prescripto](https://githu
 
 
 ## Overview
-Prescripto is a MERN stack healthcare platform designed to handle over **100 real-time bookings per day**. It improves appointment workflow by **50%** through role-based access for **Admin, Doctor, and Patient**. The platform integrates **Razorpay** and **COD** support for flexible payments, and employs **JWT authentication with rotating refresh tokens and HTTP-only cookies**, reducing unauthorized access by **80%**. Additionally, **Redis** caching and **Cloudinary** integration enhance performance and media handling.
+Prescripto is a MERN stack healthcare platform designed to handle over **100 real-time bookings per day**. It improves appointment workflow by **50%** through role-based access for **Admin, Doctor, and Patient**. The platform integrates **Razorpay** and **COD** support for flexible payments, and employs **JWT authentication with rotating refresh tokens and HTTP-only cookies**, reducing unauthorized access by **80%**. Additionally, **Cloudinary** integration supports media handling.
 
 ---
 
@@ -37,7 +37,6 @@ Prescripto is a MERN stack healthcare platform designed to handle over **100 rea
 - Real-time appointment bookings  
 - Razorpay & COD payment integration  
 - Secure authentication with JWT, rotating refresh tokens, HTTP-only cookies  
-- Redis caching for optimized performance  
 - Media management with Cloudinary  
 - CRUD operations for users, appointments, and doctors  
 - RESTful API endpoints for frontend consumption  
@@ -62,10 +61,6 @@ RAZORPAY_KEY_SECRET =
 CURRENCY =
 FRONTEND_URL = 
 ADMIN_URL = 
-REDIS_PASSWORD = 
-REDIS_HOST = 
-REDIS_PORT = 
-
 ````
 The Frontend requires the following environment variables in a `.env` file:
 
@@ -126,7 +121,6 @@ npm start
 * morgan
 * multer
 * razorpay
-* redis
 * zod
 
 ---
@@ -134,5 +128,4 @@ npm start
 ## License
 
 MIT License
-
 

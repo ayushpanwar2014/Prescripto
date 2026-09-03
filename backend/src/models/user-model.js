@@ -57,11 +57,9 @@ const options = {
 UserSchema.pre('save', async function (next) {
 
     const user = this;
-
     if (!user.isModified('password')) {
         return next();
     }
-
     try {
         const hashedPassword = await argon2.hash(user.password, options);
         user.password = hashedPassword;
@@ -100,7 +98,6 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
 UserSchema.methods.createAccessToken = async function (sessionId) {
 
     try {
-
         return jwt.sign({
             userID: this._id.toString(),
             email: this.email,
@@ -134,7 +131,6 @@ UserSchema.methods.createRefreshToken = async function (sessionId) {
 
     } catch (error) {
         console.log(error);
-
     }
 }
 
@@ -143,7 +139,6 @@ UserSchema.methods.createRefreshToken = async function (sessionId) {
 UserSchema.methods.createSession = async function ({ ip, userAgent }) {
 
     try {
-
         const session = await SessionModel.create({
             userID: this._id,
             userAgent: userAgent,
@@ -156,7 +151,6 @@ UserSchema.methods.createSession = async function ({ ip, userAgent }) {
         console.log(error);
 
     }
-
 }
 
 //Comparing Password when login

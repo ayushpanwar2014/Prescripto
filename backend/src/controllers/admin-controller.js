@@ -3,8 +3,6 @@ import { v2 as cloudinary } from 'cloudinary'
 import jwt from 'jsonwebtoken'
 import AppointmentModel from "../models/appointment-model.js";
 import UserModel from "../models/user-model.js";
-import { delValue } from "../../config/redis.js";
-import { cachedKey } from "./doctor-controllers.js";
 
 //add doctors
 export const addDoctors = async (req, res, next) => {
@@ -40,7 +38,6 @@ export const addDoctors = async (req, res, next) => {
             rating: rating,
             date: Date.now()
         });
-        await delValue(cachedKey); console.log('Cached All Doctors Deleted from redis');
         res.status(200).json({ success: true, msg: "Doctor Added Successfully!" });
 
     } catch (err) {
@@ -152,8 +149,6 @@ export const cancelAppointment = async (req, res, next) => {
 
         //now saving the data 
         await DoctorModel.findByIdAndUpdate(docID, { slots_booked: slots_booked });
-
-        await delValue(cachedKey); console.log('Cached Doctors Deleted from redis');
 
         // Respond with success message
         res.status(200).json({ success: true, msg: 'Appointment Cancelled!' });

@@ -12,6 +12,7 @@
     "dev": "node --watch server.js"
   },
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
     "argon2": "^0.43.0",
     "cloudinary": "^2.7.0",
     "cookie-parser": "^1.4.7",
@@ -27,7 +28,6 @@
     "multer": "^2.0.1",
     "pm2": "^6.0.8",
     "razorpay": "^2.9.6",
-    "redis": "^5.8.1",
     "zod": "^3.25.67"
   }
 }

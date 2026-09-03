@@ -6,8 +6,6 @@ import { v2 as cloudinary } from 'cloudinary';
 import razorpay from 'razorpay';
 import crypto from 'crypto';
 
-
-
 //setting age for cookies to be expire
 export const accessTokenAge = 1000 * 60 * 15; // 15 mins
 export const refreshTokenAge = 1000 * 60 * 60 * 24 * 7; // 7 days
@@ -34,7 +32,11 @@ export const register = async (req, res, next) => {
         // creating access token and refresh token and sending to client
         await authenticateUser(req, res, createUser);
 
-    } catch (error) {
+    } catch (err) {
+        const error = {
+            status: 401,
+            message: "Not Authenticated"
+        }
         next(error);
     }
 };
@@ -51,7 +53,6 @@ export const login = async (req, res, next) => {
         if (!userExist) return res.status(404).json({ success: false, msg: "Invalid Credentials!" });
 
         //Comaparing User Password
-
         const validPassword = await userExist.comparePassword(password);
 
         if (!validPassword) return res.status(401).json({ success: false, msg: "Invalid Credentials!" })

@@ -9,8 +9,26 @@ import Admin_Router from './src/routes/admin-routes.js';
 import Doctor_Router from './src/routes/doctor-routes.js';
 import User_Router from './src/routes/user-routes.js';
 import dotenv from 'dotenv';
-import initRedisClient from './config/redis.js';
+import sgMail from "@sendgrid/mail";
 dotenv.config();
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+async function sendHelloEmail(to) {
+    try {
+        await sgMail.send({
+            to,
+            from: "ayush.panwar2014@gmail.com", // your domain email
+            subject: "Hello!",
+            html: "<h1>Hello 👋</h1>"
+        });
+
+        console.log("Email sent to", to);
+    } catch (err) {
+        console.error("Email error:", err);
+    }
+}
+
+sendHelloEmail('ayush@nmwtech.co.uk')
 
 // app config
 const app = express();
@@ -38,7 +56,6 @@ app.use(errorMiddlewares);
 
 const initAPP = async () => {
     await dbConnected();
-    await initRedisClient();
 }
 
 initAPP().then(() => {
